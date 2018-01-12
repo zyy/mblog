@@ -11,7 +11,7 @@
 
 ### 启动：
  - 项目默认配置是在容器中启动(个人习惯), 如果想要main方法运行, 请自行修改
- ```xml
+ ```
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
