@@ -1,0 +1,8 @@
+title: Mblog
+description: mblog(mtons blog)是一个用Java实现的多人轻博客. 使用Mysql数据库, 前端基于 Bootstrap 响应式设计, 能在多端具有良好的显示效果.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
