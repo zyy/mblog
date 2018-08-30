@@ -62,6 +62,5 @@ spring:
 site:
     theme: card
     store:
-      root: /data/mblog/
+      root: d:/data/mblog/
       size: 2
-    repo: relative
