@@ -22,13 +22,14 @@ spring:
             number_format: 0.##
 
     datasource:
-        driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://localhost/db_mblog?useSSL=false&characterEncoding=utf8
+        driver-class-name: org.h2.Driver # 驱动
+        url: jdbc:h2:file:./db_mblog #h2 本地数据库文件
+        schema: classpath*:config/db/db_mblog_table.sql   #初始化表中记录数据语句
         username: root
         password: root
 
     jpa:
-        database: mysql
+        database: h2
         show-sql: false
         hibernate:
             ddl-auto: update
@@ -38,7 +39,13 @@ spring:
             hibernate.cache.use_second_level_cache: false
             hibernate.search.default.directory_provider: filesystem
             hibernate.search.default.indexBase: ${site.store.root}/indexes
-
+    h2:     #h2数据库远程管理
+        console:
+          enabled: false #开启web显示
+          path: /console # 路径
+          settings:
+            web-allow-others: true
+            trace: false #是否可以远程web
     servlet:
         multipart:
             max-file-size: 5MB

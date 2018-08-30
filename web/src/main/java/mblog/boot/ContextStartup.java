@@ -67,7 +67,7 @@ public class ContextStartup implements ApplicationRunner, Ordered, ServletContex
 
         if (null == configs || configs.isEmpty()) {
             Printer.error("------------------------------------------------------------");
-            Printer.error("-  ERROR:The SQL file is not imported. (sql/db_mblog.sql)  -");
+            Printer.error("-  ERROR:The SQL file is not imported. (sql/db_mblog_table.sql)  -");
             Printer.error("-         Please import the SQL file and try again.        -");
             Printer.error("------------------------------------------------------------");
 
