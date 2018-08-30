@@ -9,6 +9,7 @@
 */
 package mblog.modules.user.entity;
 
+import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,6 +25,7 @@ import java.util.Date;
 @Entity
 @Table(name = "mto_follows")
 @Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
+@Data
 public class Follow {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,36 +47,4 @@ public class Follow {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public User getFollow() {
-		return follow;
-	}
-
-	public void setFollow(User follow) {
-		this.follow = follow;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
-	}
 }

@@ -1,5 +1,6 @@
 package mblog.modules.authc.entity;
 
+import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "shiro_permission")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Data
 public class Permission implements Serializable {
     private static final long serialVersionUID = -5979636077639378677L;
 
@@ -32,53 +34,4 @@ public class Permission implements Serializable {
 
     @Version
     private Integer version;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(long parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
 }

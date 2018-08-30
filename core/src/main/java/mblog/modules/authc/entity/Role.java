@@ -1,5 +1,6 @@
 package mblog.modules.authc.entity;
 
+import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "shiro_role")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Data
 public class Role implements Serializable {
     private static final long serialVersionUID = -1153854616385727165L;
 
@@ -37,45 +39,4 @@ public class Role implements Serializable {
 
     @Transient
     private List<Permission> permissions;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
 }

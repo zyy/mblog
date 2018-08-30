@@ -1,5 +1,6 @@
 package mblog.modules.blog.entity;
 
+import lombok.Data;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "mto_posts_attribute")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Data
 public class PostAttribute implements Serializable {
 	private static final long serialVersionUID = 7829351358884064647L;
 
@@ -25,21 +27,5 @@ public class PostAttribute implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     @Type(type="text")
     private String content; // 内容
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
 }
