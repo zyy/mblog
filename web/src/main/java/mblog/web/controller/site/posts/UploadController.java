@@ -9,6 +9,7 @@
 */
 package mblog.web.controller.site.posts;
 
+import lombok.Data;
 import mblog.base.utils.FileKit;
 import mblog.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Value;
@@ -97,7 +98,7 @@ public class UploadController extends BaseController {
 
         return result;
     }
-
+    @Data
     static class UploadResult {
         public static int OK = 200;
         public static int ERROR = 400;
@@ -143,54 +144,5 @@ public class UploadController extends BaseController {
             this.message = message;
             return this;
         }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public long getSize() {
-            return size;
-        }
-
-        public void setSize(long size) {
-            this.size = size;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-
     }
 }
