@@ -9,6 +9,7 @@
 */
 package mblog.base.context;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.Map;
  * 
  */
 @Component
+@Data
 public class AppContext {
 	
 	/*
@@ -52,52 +54,4 @@ public class AppContext {
 	 * - 在 StartupListener 类中加载
 	 */
 	public Map<String, String> config;
-
-	public String getRoot() {
-		return root;
-	}
-
-	public void setRoot(String root) {
-		this.root = root;
-	}
-
-	public String getOrigDir() {
-		return origDir;
-	}
-
-	public void setOrigDir(String origDir) {
-		this.origDir = origDir;
-	}
-
-	public String getThumbsDir() {
-		return thumbsDir;
-	}
-
-	public void setThumbsDir(String thumbsDir) {
-		this.thumbsDir = thumbsDir;
-	}
-
-	public String getTempDir() {
-		return tempDir;
-	}
-
-	public void setTempDir(String tempDir) {
-		this.tempDir = tempDir;
-	}
-
-	public String getAvaDir() {
-		return avaDir;
-	}
-
-	public void setAvaDir(String avaDir) {
-		this.avaDir = avaDir;
-	}
-
-	public Map<String, String> getConfig() {
-		return config;
-	}
-
-	public void setConfig(Map<String, String> config) {
-		this.config = config;
-	}
 }
