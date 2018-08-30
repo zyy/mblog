@@ -41,11 +41,11 @@ spring:
             hibernate.search.default.indexBase: ${site.store.root}/indexes
     h2:     #h2数据库远程管理
         console:
-          enabled: false #开启web显示
+          enabled: true #开启web显示
           path: /console # 路径
           settings:
             web-allow-others: true
-            trace: false #是否可以远程web
+            trace: true #是否可以远程web
     servlet:
         multipart:
             max-file-size: 5MB
@@ -62,5 +62,6 @@ spring:
 site:
     theme: card
     store:
-      root: d:/data/mblog/
+      root: /data/mblog/
       size: 2
+    repo: relative
