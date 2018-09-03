@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
+
 import mblog.base.data.Data;
 import org.apache.log4j.Logger;
 import org.springframework.core.annotation.AnnotationUtils;

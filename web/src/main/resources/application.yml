@@ -30,7 +30,7 @@ spring:
 
     jpa:
         database: h2
-        show-sql: false
+        show-sql: true
         hibernate:
             ddl-auto: update
         properties:
@@ -57,7 +57,11 @@ spring:
         port: 25
         properties:
             mail.smtp.auth: true
-
+logging:
+  level.*: debug
+  pattern:
+    console: "%d-%msg%n"
+  file: mblog.log
 # site.theme: [default|card]
 site:
     theme: card
