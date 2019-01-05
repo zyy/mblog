@@ -249,7 +249,7 @@
 				<configuration>
 					<fork>true</fork>
 					<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-					<mainClass>mblog.BootApplication</mainClass>
+					<mainClass>com.mtons.mblog.BootApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
