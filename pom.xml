@@ -9,6 +9,16 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<commons.lang3>3.6</commons.lang3>
+		<commons.lang>2.6</commons.lang>
+		<commons.io>1.3.2</commons.io>
+		<commons.text>1.3</commons.text>
+		<commons.httpclient>3.1</commons.httpclient>
+		<shiro>1.4.0</shiro>
+		<coobird.thumbnailator>0.4.8</coobird.thumbnailator>
+		<alibaba.fastjson>1.2.16</alibaba.fastjson>
+		<org.jsoup>1.9.2</org.jsoup>
+		<apache.lucene>5.5.4</apache.lucene>
 	</properties>
 
 	<parent>
@@ -27,44 +37,44 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
+			<version>${commons.lang}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.6</version>
+			<version>${commons.lang3}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>1.3.2</version>
+			<version>${commons.io}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.3</version>
+			<version>${commons.text}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
+			<version>${commons.httpclient}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
-			<version>0.4.8</version>
+			<version>${coobird.thumbnailator}</version>
 		</dependency>
 
 		<!--json格式化类库 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.16</version>
+			<version>${alibaba.fastjson}</version>
 		</dependency>
 
 		<dependency>
@@ -80,13 +90,18 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.9.2</version>
+			<version>${org.jsoup}</version>
 		</dependency>
 
 		<!-- database -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -105,12 +120,12 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-smartcn</artifactId>
-			<version>5.5.4</version>
+			<version>${apache.lucene}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-highlighter</artifactId>
-			<version>5.5.4</version>
+			<version>${apache.lucene}</version>
 		</dependency>
 		<!-- /end -->
 
@@ -124,17 +139,17 @@
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-web</artifactId>
-			<version>1.4.0</version>
+			<version>${shiro}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
-			<version>1.4.0</version>
+			<version>${shiro}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
-			<version>1.4.0</version>
+			<version>${shiro}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-api</artifactId>
@@ -192,15 +207,41 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<!--开发默认环境-->
+		<profile>
+			<id>mysql</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<profileActive>mysql</profileActive>
+			</properties>
+		</profile>
+
+		<!--测试环境-->
+		<profile>
+			<id>h2</id>
+			<properties>
+				<profileActive>h2</profileActive>
+			</properties>
+		</profile>
+
+	</profiles>
+
 	<build>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
 				<includes>
 					<include>**/**</include>
 				</includes>
 			</resource>
 		</resources>
+		<!--<filters>-->
+			<!--<filter>src/main/resources/application.yml</filter>-->
+		<!--</filters>-->
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
