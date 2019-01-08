@@ -239,6 +239,13 @@
 					<exclude>templates/**</exclude>
 				</excludes>
 			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>static/**</include>
+					<include>templates/**</include>
+				</includes>
+			</resource>
 		</resources>
 		<!--<filters>-->
 			<!--<filter>src/main/resources/application.yml</filter>-->
