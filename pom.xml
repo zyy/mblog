@@ -234,9 +234,10 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
-				<includes>
-					<include>**/**</include>
-				</includes>
+				<excludes>
+					<exclude>static/**</exclude>
+					<exclude>templates/**</exclude>
+				</excludes>
 			</resource>
 		</resources>
 		<!--<filters>-->
