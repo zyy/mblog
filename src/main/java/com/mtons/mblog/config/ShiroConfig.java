@@ -1,6 +1,5 @@
 package com.mtons.mblog.config;
 
-import com.mtons.mblog.shiro.authc.AccountSubjectFactory;
 import com.mtons.mblog.shiro.filter.AuthenticatedFilter;
 import com.mtons.mblog.shiro.realm.AccountRealm;
 import org.apache.shiro.cache.CacheManager;
@@ -34,11 +33,6 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    @Bean
-    public AccountSubjectFactory accountSubjectFactory() {
-        return new AccountSubjectFactory();
-    }
-
     /**
      * 安全管理器
      */
@@ -49,7 +43,6 @@ public class ShiroConfig {
         securityManager.setCacheManager(cacheShiroManager);
         securityManager.setRememberMeManager(rememberMeManager);
         securityManager.setSessionManager(sessionManager);
-        securityManager.setSubjectFactory(this.accountSubjectFactory());
         return securityManager;
     }
 

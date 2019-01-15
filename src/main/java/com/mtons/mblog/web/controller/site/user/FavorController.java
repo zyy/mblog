@@ -37,7 +37,7 @@ public class FavorController extends BaseController {
         Data data = Data.failure("操作失败");
         if (id != null) {
             try {
-                AccountProfile up = getSubject().getProfile();
+                AccountProfile up = getProfile();
                 postService.favor(up.getId(), id);
 
                 sendNotify(up.getId(), id);
@@ -61,7 +61,7 @@ public class FavorController extends BaseController {
         Data data = Data.failure("操作失败");
         if (id != null) {
             try {
-                AccountProfile up = getSubject().getProfile();
+                AccountProfile up = getProfile();
                 postService.unfavor(up.getId(), id);
                 data = Data.success("操作成功!", Data.NOOP);
             } catch (Exception e) {

@@ -45,7 +45,7 @@ public class AvatarController extends BaseController {
 	
 	@RequestMapping(value = "/avatar", method = RequestMethod.POST)
 	public String post(String path, Float x, Float y, Float width, Float height, ModelMap model) {
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		
 		if (StringUtils.isEmpty(path)) {
 			model.put("data", Data.failure("请选择图片"));

@@ -40,7 +40,7 @@ public class PasswordController extends BaseController {
 	public String post(String oldPassword, String password, ModelMap model) {
 		Data data;
 		try {
-			AccountProfile profile = getSubject().getProfile();
+			AccountProfile profile = getProfile();
 			userService.updatePassword(profile.getId(), oldPassword, password);
 			
 			data = Data.success("操作成功", Data.NOOP);

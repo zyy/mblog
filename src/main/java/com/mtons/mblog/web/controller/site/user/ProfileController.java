@@ -39,7 +39,7 @@ public class ProfileController extends BaseController {
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String view(ModelMap model) {
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		UserVO view = userService.get(profile.getId());
 		model.put("view", view);
 		return view(Views.USER_PROFILE);
@@ -48,7 +48,7 @@ public class ProfileController extends BaseController {
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	public String post(String name, String signature, ModelMap model) {
 		Data data;
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		
 		try {
 			UserVO user = new UserVO();
@@ -78,7 +78,7 @@ public class ProfileController extends BaseController {
 	@RequestMapping(value = "/email", method = RequestMethod.POST)
 	public String emailPost(String email, ModelMap model) {
 		Data data;
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 
 		try {
 			Assert.notNull(email, "缺少必要的参数");

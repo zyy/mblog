@@ -9,24 +9,10 @@
 */
 package com.mtons.mblog.web.controller.site.user;
 
-import com.mtons.mblog.modules.service.FollowService;
+import com.mtons.mblog.modules.data.*;
+import com.mtons.mblog.modules.service.*;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.web.controller.site.Views;
-import com.mtons.mblog.modules.data.CommentVO;
-import com.mtons.mblog.modules.data.FavorVO;
-import com.mtons.mblog.modules.data.FeedsVO;
-import com.mtons.mblog.modules.data.PostVO;
-import com.mtons.mblog.modules.service.CommentService;
-import com.mtons.mblog.modules.service.FavorService;
-import com.mtons.mblog.modules.service.FeedsService;
-import com.mtons.mblog.modules.service.PostService;
-import com.mtons.mblog.modules.data.AccountProfile;
-import com.mtons.mblog.modules.data.BadgesCount;
-import com.mtons.mblog.modules.data.NotifyVO;
-import com.mtons.mblog.modules.data.UserVO;
-import com.mtons.mblog.modules.service.NotifyService;
-import com.mtons.mblog.modules.service.UserService;
-import com.mtons.mblog.shiro.authc.AccountSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -64,9 +50,7 @@ public class UserController extends BaseController {
 	@GetMapping("/user")
 	public String home(ModelMap model) {
 		Pageable pageable = wrapPageable();
-		AccountSubject subject = getSubject();
-
-		Page<FeedsVO> page = feedsService.findUserFeeds(pageable, subject.getProfile().getId());
+		Page<FeedsVO> page = feedsService.findUserFeeds(pageable, getProfile().getId());
 
 		model.put("page", page);
 		initUser(model);
@@ -82,8 +66,7 @@ public class UserController extends BaseController {
 	@GetMapping(value="/user", params = "method=posts")
 	public String posts(ModelMap model) {
 		Pageable pageable = wrapPageable();
-		AccountProfile up = getSubject().getProfile();
-		Page<PostVO> page = postService.pagingByAuthorId(pageable, up.getId());
+		Page<PostVO> page = postService.pagingByAuthorId(pageable, getProfile().getId());
 
 		model.put("page", page);
 		initUser(model);
@@ -99,8 +82,8 @@ public class UserController extends BaseController {
 	@GetMapping(value="/user", params = "method=comments")
 	public String comments(ModelMap model) {
 		Pageable pageable = wrapPageable();
-		AccountSubject subject = getSubject();
-		Page<CommentVO> page = commentService.paging4Home(pageable, subject.getProfile().getId());
+		AccountProfile profile = getProfile();
+		Page<CommentVO> page = commentService.paging4Home(pageable, profile.getId());
 
 		model.put("page", page);
 		initUser(model);
@@ -116,7 +99,7 @@ public class UserController extends BaseController {
 	@GetMapping(value="/user", params = "method=favors")
 	public String favors(ModelMap model) {
 		Pageable pageable = wrapPageable();
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		Page<FavorVO> page = favorService.pagingByOwnId(pageable, profile.getId());
 
 		model.put("page", page);
@@ -133,7 +116,7 @@ public class UserController extends BaseController {
 	@GetMapping(value="/user", params = "method=follows")
 	public String follows(ModelMap model) {
 		Pageable pageable = wrapPageable();
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		Page<UserVO> page = followService.follows(pageable, profile.getId());
 
 		model.put("page", page);
@@ -150,7 +133,7 @@ public class UserController extends BaseController {
 	@GetMapping(value="/user", params = "method=fans")
 	public String fans(ModelMap model) {
 		Pageable pageable = wrapPageable();
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		Page<UserVO> page = followService.fans(pageable, profile.getId());
 
 		model.put("page", page);
@@ -167,7 +150,7 @@ public class UserController extends BaseController {
 	@GetMapping(value="/user", params = "method=notifies")
 	public String notifies(ModelMap model) {
 		Pageable pageable = wrapPageable();
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		Page<NotifyVO> page = notifyService.findByOwnId(pageable, profile.getId());
 		// 标记已读
 		notifyService.readed4Me(profile.getId());
@@ -179,7 +162,7 @@ public class UserController extends BaseController {
 	}
 
 	private void initUser(ModelMap model) {
-		AccountProfile up = getSubject().getProfile();
+		AccountProfile up = getProfile();
 		UserVO user = userService.get(up.getId());
 
 		model.put("user", user);

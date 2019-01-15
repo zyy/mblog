@@ -57,7 +57,7 @@ public class CommentController extends BaseController {
 			return data;
 		}
 		if (toId > 0 && StringUtils.isNotEmpty(text)) {
-			AccountProfile up = getSubject().getProfile();
+			AccountProfile up = getProfile();
 			
 			CommentVO c = new CommentVO();
 			c.setToId(toId);
@@ -81,7 +81,7 @@ public class CommentController extends BaseController {
 	public @ResponseBody Data delete(Long id) {
 		Data data = Data.failure("操作失败");
 		if (id != null) {
-			AccountProfile up = getSubject().getProfile();
+			AccountProfile up = getProfile();
 			try {
 				commentService.delete(id, up.getId());
 				data = Data.success("操作成功", Data.NOOP);

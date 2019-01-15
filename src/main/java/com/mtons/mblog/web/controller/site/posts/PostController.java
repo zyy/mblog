@@ -43,7 +43,7 @@ public class PostController extends BaseController {
 		model.put("channels", channelService.findAll(Consts.STATUS_NORMAL));
 
 		if (null != id && id > 0) {
-			AccountProfile profile = getSubject().getProfile();
+			AccountProfile profile = getProfile();
 			PostVO view = postService.get(id);
 
 			Assert.notNull(view, "该文章已被删除");
@@ -66,7 +66,7 @@ public class PostController extends BaseController {
 		Assert.state(StringUtils.isNotBlank(post.getTitle()), "标题不能为空");
 		Assert.state(StringUtils.isNotBlank(post.getContent()), "内容不能为空");
 
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		post.setAuthorId(profile.getId());
 
 		/**
@@ -105,7 +105,7 @@ public class PostController extends BaseController {
 	Data delete(@PathVariable Long id) {
 		Data data = Data.failure("操作失败");
 		if (id != null) {
-			AccountProfile up = getSubject().getProfile();
+			AccountProfile up = getProfile();
 			try {
 				postService.delete(id, up.getId());
 				data = Data.success("操作成功", Data.NOOP);

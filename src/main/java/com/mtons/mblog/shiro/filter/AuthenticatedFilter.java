@@ -41,33 +41,20 @@ public class AuthenticatedFilter extends OncePerRequestFilter {
         if (subject.isAuthenticated()) {
             chain.doFilter(request, response);
         } else {
-            identifyGuest(subject, request, response, chain);
+            WebUtils.saveRequest(request);
+            String path = WebUtils.getContextPath((HttpServletRequest) request);
+            String url = loginUrl;
+            if (StringUtils.isNotBlank(path) && path.length() > 1) {
+                url = path + url;
+            }
+
+            if (isAjaxRequest((HttpServletRequest) request)) {
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().print(JSON.toJSONString(Data.failure("您还没有登录!")));
+            } else {
+                response.getWriter().write(new Formatter().format(JS, url).toString());
+            }
         }
-    }
-
-    protected void identifyGuest(Subject subject, ServletRequest request, ServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        redirectLogin(request, response);
-    }
-
-	protected void redirectLogin(ServletRequest request, ServletResponse response) throws IOException {
-        WebUtils.saveRequest(request);
-        String path = WebUtils.getContextPath((HttpServletRequest) request);
-        String url = loginUrl;
-        if (StringUtils.isNotBlank(path) && path.length() > 1) {
-        	url = path + url;
-		}
-        
-        if (isAjaxRequest((HttpServletRequest) request)) {
-        	response.setContentType("application/json;charset=UTF-8");
-			response.getWriter().print(JSON.toJSONString(Data.failure("您还没有登录!")));
-        } else {
-        	response.getWriter().write(new Formatter().format(JS, url).toString());
-        }
-    }
-
-    public String getLoginUrl() {
-        return loginUrl;
     }
 
     public void setLoginUrl(String loginUrl) {
@@ -83,10 +70,7 @@ public class AuthenticatedFilter extends OncePerRequestFilter {
 	 */
 	public static boolean isAjaxRequest(HttpServletRequest request) {
 		String header = request.getHeader("X-Requested-With");
-		if (header != null && "XMLHttpRequest".equals(header))
-			return true;
-		else
-			return false;
+        return "XMLHttpRequest".equals(header);
 	}
 
 }

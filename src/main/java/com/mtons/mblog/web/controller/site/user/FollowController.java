@@ -29,7 +29,7 @@ public class FollowController extends BaseController {
         Data data = Data.failure("操作失败");
         if (id != null) {
             try {
-                AccountProfile up = getSubject().getProfile();
+                AccountProfile up = getProfile();
 
                 followService.follow(up.getId(), id);
 
@@ -48,7 +48,7 @@ public class FollowController extends BaseController {
         Data data = Data.failure("操作失败");
         if (id != null) {
             try {
-                AccountProfile up = getSubject().getProfile();
+                AccountProfile up = getProfile();
 
                 followService.unfollow(up.getId(), id);
 
@@ -65,7 +65,7 @@ public class FollowController extends BaseController {
         Data data = Data.failure("操作失败");
         if (id != null) {
             try {
-                AccountProfile up = getSubject().getProfile();
+                AccountProfile up = getProfile();
 
                 boolean check = followService.checkFollow(up.getId(), id);
 

@@ -39,7 +39,7 @@ public class RegisterController extends BaseController {
 	
 	@GetMapping("/register")
 	public String view() {
-		AccountProfile profile = getSubject().getProfile();
+		AccountProfile profile = getProfile();
 		if (profile != null) {
 			return "redirect:/home";
 		}

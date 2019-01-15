@@ -101,7 +101,7 @@ public class PostController extends BaseController {
 			if (post.getId() > 0) {
 				postService.update(post);
 			} else {
-				AccountProfile profile = getSubject().getProfile();
+				AccountProfile profile = getProfile();
 				post.setAuthorId(profile.getId());
 				postService.post(post);
 			}

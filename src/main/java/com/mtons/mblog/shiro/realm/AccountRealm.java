@@ -1,25 +1,22 @@
 package com.mtons.mblog.shiro.realm;
 
-import java.util.List;
-
 import com.mtons.mblog.base.lang.Consts;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.UserVO;
 import com.mtons.mblog.modules.entity.Role;
-import com.mtons.mblog.modules.service.UserService;
-import com.mtons.mblog.shiro.authc.AccountAuthenticationInfo;
 import com.mtons.mblog.modules.service.UserRoleService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import com.mtons.mblog.modules.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.AllowAllCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class AccountRealm extends AuthorizingRealm {
     @Autowired
@@ -34,9 +31,9 @@ public class AccountRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String username = (String) principals.fromRealm(getName()).iterator().next();
-        if (username != null) {
-            UserVO user = userService.getByUsername(username);
+        AccountProfile profile = (AccountProfile) SecurityUtils.getSubject().getPrincipal();
+        if (profile != null) {
+            UserVO user = userService.get(profile.getId());
             if (user != null) {
                 SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
                 List<Role> roles = userRoleService.listRoles(user.getId());
@@ -62,9 +59,9 @@ public class AccountRealm extends AuthorizingRealm {
             throw new LockedAccountException(profile.getName());
         }
 
-        AccountAuthenticationInfo info = new AccountAuthenticationInfo(token.getPrincipal(), token.getCredentials(), getName());
-        info.setProfile(profile);
-
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(profile, token.getCredentials(), getName());
+        Session session = SecurityUtils.getSubject().getSession();
+        session.setAttribute("profile", profile);
         return info;
     }
 
