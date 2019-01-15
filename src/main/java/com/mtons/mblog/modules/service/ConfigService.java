@@ -10,6 +10,7 @@
 package com.mtons.mblog.modules.service;
 
 import com.mtons.mblog.modules.entity.Config;
+import org.springframework.core.io.Resource;
 
 import java.util.List;
 import java.util.Map;
@@ -46,4 +47,6 @@ public interface ConfigService {
 	 * @return
 	 */
 	String findConfigValueByName(String key);
+
+	void initSettings(Resource resource);
 }

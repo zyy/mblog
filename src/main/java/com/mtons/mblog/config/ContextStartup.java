@@ -10,10 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.Ordered;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -66,13 +72,18 @@ public class ContextStartup implements ApplicationRunner, Ordered, ServletContex
         Map<String, String> map = new HashMap<>();
 
         if (null == configs || configs.isEmpty()) {
-            Printer.error("------------------------------------------------------------");
-            Printer.error("-  ERROR:The SQL file is not imported. (sql/db_mblog.sql)  -");
-            Printer.error("-         Please import the SQL file and try again.        -");
-            Printer.error("------------------------------------------------------------");
-
-            if (exit) {
-                System.exit(1);
+            try {
+                Resource resource = new ClassPathResource("/config/db/db_mblog.sql");
+                configService.initSettings(resource);
+            } catch (Exception e) {
+                Printer.error("------------------------------------------------------------");
+                Printer.error("-  ERROR:The SQL file is not imported. (sql/db_mblog.sql)  -");
+                Printer.error("-         Please import the SQL file and try again.        -");
+                Printer.error("------------------------------------------------------------");
+                Printer.error(e.getMessage(), e);
+                if (exit) {
+                    System.exit(1);
+                }
             }
         } else {
             configs.forEach(conf -> {
