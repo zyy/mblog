@@ -14,7 +14,7 @@
 ### 启动：
  - main方法运行
  ```xml
- 配置：src/main/resources/application.yml (数据库账号密码)、向数据库导入初始数据 sql/db_mblog.sql
+ 配置：src/main/resources/application.yml (数据库账号密码)、新建db_mblog的数据库
  运行：src/main/java/mblog/BootApplication
  访问：http://localhost:8080/
  后台：http://localhost:8080/admin
@@ -29,6 +29,7 @@
 ### 最新版本(2.8)更新内容：
     1. 项目结构调整
     2. 合并了之前的内嵌数据库分支, 采用通过maven环境变量的方式可切换mysql/h2(懒人福利)
+    3. 修改启动监听, 如果发现未初始化脚本, 自动执行初始化, 不再需要之前的导入脚本
     
 ### 最新版本(2.7)更新内容：
     1. 优化首页显示
