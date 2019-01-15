@@ -12,7 +12,7 @@ package com.mtons.mblog.modules.service.impl;
 import com.mtons.mblog.modules.entity.Config;
 import com.mtons.mblog.modules.repository.ConfigDao;
 import com.mtons.mblog.modules.service.ConfigService;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.Session;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -99,9 +98,8 @@ public class ConfigServiceImpl implements ConfigService {
 	@Override
 	@Transactional
 	public void initSettings(Resource resource) {
-		SessionImplementor session =entityManager.unwrap(SessionImplementor.class);
-		Connection connection = session.connection();
-		ScriptUtils.executeSqlScript(connection, resource);
+		Session session = entityManager.unwrap(org.hibernate.Session.class);
+		session.doWork(connection -> ScriptUtils.executeSqlScript(connection, resource));
 	}
 
 }
