@@ -45,9 +45,6 @@ public class User {
 	@Column(name = "email", unique = true, length = 128)
 	private String email;  // 邮箱
 
-	@Column(name = "mobile", length = 11)
-	private String mobile;  // 手机号
-
 	private int posts; // 文章数
 
 	private int comments; // 发布评论数
@@ -60,15 +57,11 @@ public class User {
 
 	private Date created;  // 注册时间
 
-	private int source; // 注册来源：主要用于区别第三方登录
-
 	@Column(name = "last_login")
 	private Date lastLogin;
 
 	private String signature; // 个性签名
 
-	@Column(name = "active_email")
-	private int activeEmail; // 邮箱激活状态
 	private int status; // 用户状态
 
 	public User() {
@@ -109,14 +102,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
 	}
 
 	public Date getCreated() {
@@ -165,22 +150,6 @@ public class User {
 
 	public void setGender(int gender) {
 		this.gender = gender;
-	}
-
-	public int getSource() {
-		return source;
-	}
-
-	public void setSource(int source) {
-		this.source = source;
-	}
-
-	public int getActiveEmail() {
-		return activeEmail;
-	}
-
-	public void setActiveEmail(int activeEmail) {
-		this.activeEmail = activeEmail;
 	}
 
 	public int getPosts() {

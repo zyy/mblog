@@ -76,26 +76,19 @@ public class ProfileController extends BaseController {
 	}
 
 	@RequestMapping(value = "/email", method = RequestMethod.POST)
-	public String emailPost(String email, ModelMap model) {
+	public String emailPost(String email, String code, ModelMap model) {
 		Data data;
 		AccountProfile profile = getProfile();
-
 		try {
-			Assert.notNull(email, "缺少必要的参数");
+			Assert.hasLength(email, "请输入邮箱地址");
+			Assert.hasLength(code, "请输入验证码");
 
+			verifyService.verify(profile.getId(), Consts.VERIFY_BIND, code);
 			// 先执行修改，判断邮箱是否更改，或邮箱是否被人使用
-			userService.updateEmail(profile.getId(), email);
+			AccountProfile p = userService.updateEmail(profile.getId(), email);
+			putProfile(p);
 
-			String code = verifyService.generateCode(profile.getId(), Consts.VERIFY_BIND, email);
-
-			Map<String, Object> context = new HashMap<>();
-			context.put("userId", profile.getId());
-			context.put("code", code);
-			context.put("type", Consts.VERIFY_BIND);
-
-			mailHelper.sendEmail(Consts.EMAIL_TEMPLATE_BIND, email, "邮箱绑定验证", context);
-
-			data = Data.success("操作成功，已经发送验证邮件，请前往邮箱验证", Data.NOOP);
+			data = Data.success("操作成功", Data.NOOP);
 		} catch (Exception e) {
 			data = Data.failure(e.getMessage());
 		}

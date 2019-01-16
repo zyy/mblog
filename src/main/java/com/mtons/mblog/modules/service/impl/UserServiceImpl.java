@@ -98,26 +98,23 @@ public class UserServiceImpl implements UserService {
 		Assert.notNull(user, "Parameter user can not be null!");
 
 		Assert.hasLength(user.getUsername(), "用户名不能为空!");
-//		Assert.hasLength(user.getEmail(), "邮箱不能为空!");
 		Assert.hasLength(user.getPassword(), "密码不能为空!");
 
 		User check = userDao.findByUsername(user.getUsername());
 
 		Assert.isNull(check, "用户名已经存在!");
 
-		if (StringUtils.isNotBlank(user.getEmail())) {
-			check = userDao.findByEmail(user.getEmail());
-			Assert.isNull(check, "邮箱已经被注册!");
-		}
-
 		User po = new User();
 
 		BeanUtils.copyProperties(user, po);
 
+		if (StringUtils.isBlank(po.getName())) {
+			po.setName(user.getUsername());
+		}
+
 		Date now = Calendar.getInstance().getTime();
 		po.setPassword(MD5.md5(user.getPassword()));
 		po.setStatus(EntityStatus.ENABLED);
-		po.setActiveEmail(EntityStatus.ENABLED);
 		po.setCreated(now);
 
 		userDao.save(po);
@@ -145,7 +142,6 @@ public class UserServiceImpl implements UserService {
 		User po = userDao.findOne(id);
 
 		if (null != po) {
-
 			if (email.equals(po.getEmail())) {
 				throw new MtonsException("邮箱地址没做更改");
 			}
@@ -156,8 +152,6 @@ public class UserServiceImpl implements UserService {
 				throw new MtonsException("该邮箱地址已经被使用了");
 			}
 			po.setEmail(email);
-			po.setActiveEmail(EntityStatus.ENABLED);
-
 			userDao.save(po);
 		}
 
@@ -189,12 +183,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserVO getByUsername(String username) {
-		User po = userDao.findByUsername(username);
-		UserVO ret = null;
-		if (po != null) {
-			ret = BeanMapUtils.copy(po, 0);
-		}
-		return ret;
+		return BeanMapUtils.copy(userDao.findByUsername(username), 0);
+	}
+
+	@Override
+	public UserVO getByEmail(String email) {
+		return BeanMapUtils.copy(userDao.findByEmail(email), 0);
 	}
 
 	@Override
@@ -245,18 +239,6 @@ public class UserServiceImpl implements UserService {
 			po.setStatus(status);
 			userDao.save(po);
 		}
-	}
-
-	@Override
-	@Transactional
-	public AccountProfile updateActiveEmail(long id, int activeEmail) {
-		User po = userDao.findOne(id);
-
-		if (po != null) {
-			po.setActiveEmail(activeEmail);
-			userDao.save(po);
-		}
-		return BeanMapUtils.copyPassport(po);
 	}
 
 	@Override

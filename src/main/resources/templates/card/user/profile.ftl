@@ -5,6 +5,7 @@
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
 			<li class="active"><a href="profile">基本信息</a></li>
+            <li><a href="email">修改邮箱</a></li>
 			<li><a href="avatar">修改头像</a></li>
 			<li><a href="password">修改密码</a></li>
 		</ul>
@@ -19,20 +20,6 @@
 					<label class="control-label col-lg-3" for="nickname">昵称</label>
 					<div class="col-lg-4">
 						<input type="text" class="form-control" name="name" value="${view.name}" maxlength="7" data-required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-lg-3" for="email">邮箱地址</label>
-					<div class="col-lg-4">
-						<span class="form-control">${view.email}</span>
-					</div>
-					<div class="col-lg-3" style="padding-top: 6px;">
-						<#if (view.activeEmail == 1)>
-							<span class="label label-success">已验证</span>
-						<#else>
-							<span class="label label-warning">未验证</span>
-						</#if>
-						<a href="${base}/user/email">修改邮箱</a>
 					</div>
 				</div>
 				<div class="form-group">

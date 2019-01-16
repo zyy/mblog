@@ -4,7 +4,7 @@ package com.mtons.mblog.base.print;
  * @author langhsu on 2015/9/6.
  */
 public class Printer {
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("com/mtons/mblog");
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("com.mtons.mblog");
 
     public static void info(String message) {
         log.info(message);

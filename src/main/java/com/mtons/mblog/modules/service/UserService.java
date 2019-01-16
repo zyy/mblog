@@ -67,6 +67,8 @@ public interface UserService {
 
 	UserVO getByUsername(String username);
 
+	UserVO getByEmail(String email);
+
 	/**
 	 * 修改头像
 	 * @param id
@@ -96,8 +98,6 @@ public interface UserService {
 	 * @param status
 	 */
 	void updateStatus(long id, int status);
-
-	AccountProfile updateActiveEmail(long id, int activeEmail);
 
 	/**
 	 * 分页查询

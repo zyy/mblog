@@ -5,6 +5,7 @@
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
 			<li><a href="profile">基本信息</a></li>
+            <li><a href="email">修改邮箱</a></li>
 			<li class="active"><a href="avatar">修改头像</a></li>
 			<li><a href="password">修改密码</a></li>
 		</ul>

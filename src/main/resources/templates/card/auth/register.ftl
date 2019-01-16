@@ -17,14 +17,6 @@
                         <input class="form-control" name="username" type="text" data-required data-conditional="username" data-description="username" data-describedby="message">
                     </div>
                     <div class="form-group ">
-                        <label class="control-label" for="email">邮箱</label>
-                        <input class="form-control" name="email" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
-                    </div>
-                    <div class="form-group ">
-                        <label class="control-label" for="name">昵称</label>
-                        <input class="form-control" name="name" type="text" data-required>
-                    </div>
-                    <div class="form-group ">
                         <label class="control-label" for="username">密码</label>
                         <input class="form-control" id="password" name="password" type="password" maxlength="18" placeholder="新密码" data-required>
                     </div>
@@ -56,9 +48,6 @@
                 confirm : function() {
                     return $(this).val() == $('#password').val();
                 },
-                email : function() {
-                    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($(this).val());
-                },
                 username : function() {
                     return /^[a-z][a-z_0-9]{4,18}$/i.test($(this).val());
                 }
@@ -66,9 +55,6 @@
             description : {
                 confirm : {
                     conditional : '<div class="alert alert-danger">两次输入的密码不一致</div>'
-                },
-                email : {
-                    conditional : '<div class="alert alert-danger">邮箱格式不合法</div>'
                 },
                 username : {
                     conditional : '<div class="alert alert-danger">只能是字母/字母+数字的组合,不少于5位</div>'

@@ -5,7 +5,7 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">回调地址</label>
             <div class="col-lg-6">
-                <input type="text" name="site_oauth_qq" class="form-control" value="${configs['site_oauth_qq'].value}">
+                <input type="text" name="qq_callback" class="form-control" value="${configs['qq_callback'].value}">
                 <p class="help-block">示例: http://{domain}/oauth/callback/qq</p>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">回调地址</label>
             <div class="col-lg-6">
-                <input type="text" name="site_oauth_weibo" class="form-control" value="${configs['site_oauth_weibo'].value}">
+                <input type="text" name="weibo_callback" class="form-control" value="${configs['weibo_callback'].value}">
                 <p class="help-block">示例: http://{domain}/oauth/callback/weibo</p>
             </div>
         </div>
@@ -42,6 +42,29 @@
             <label class="col-lg-2 control-label">client_SERCRET</label>
             <div class="col-lg-6">
                 <input type="text" name="weibo_client_sercret" class="form-control" value="${configs['weibo_client_sercret'].value}">
+            </div>
+        </div>
+    </div>
+
+    <div class="channel-left-border">
+        <div class="channel-title">Github登录</div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">回调地址</label>
+            <div class="col-lg-6">
+                <input type="text" name="github_callback" class="form-control" value="${configs['github_callback'].value}">
+                <p class="help-block">示例: http://{domain}/oauth/callback/github</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">client_ID</label>
+            <div class="col-lg-6">
+                <input type="text" name="github_client_id" class="form-control" value="${configs['github_client_id'].value}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">client_SERCRET</label>
+            <div class="col-lg-6">
+                <input type="text" name="github_secret_key" class="form-control" value="${configs['github_secret_key'].value}">
             </div>
         </div>
     </div>

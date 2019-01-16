@@ -18,10 +18,7 @@ import com.mtons.mblog.web.controller.site.Views;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,17 +52,18 @@ public class CallbackController extends BaseController {
 
     /**
      * 跳转到微博进行授权
+     *
      * @param request
      * @param response
      * @author A蛋壳  2015年9月12日 下午3:05:54
      */
     @RequestMapping("/call_weibo")
-    public void callWeibo(HttpServletRequest request, HttpServletResponse response){
+    public void callWeibo(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=utf-8");
         try {
             APIConfig.getInstance().setOpenid_sina(appContext.getConfig().get(SiteConfig.WEIBO_CLIENT_ID));
             APIConfig.getInstance().setOpenkey_sina(appContext.getConfig().get(SiteConfig.WEIBO_CLIENT_SERCRET));
-            APIConfig.getInstance().setRedirect_sina(appContext.getConfig().get(SiteConfig.SITE_OAUTH_WEIBO));
+            APIConfig.getInstance().setRedirect_sina(appContext.getConfig().get(SiteConfig.WEIBO_CALLBACK));
 
             String state = TokenUtil.randomState();
             request.getSession().setAttribute(SESSION_STATE, state);
@@ -124,17 +122,18 @@ public class CallbackController extends BaseController {
 
     /**
      * 跳转到QQ互联授权界面
+     *
      * @param request
      * @param response
      * @author A蛋壳  2015年9月12日 下午3:28:21
      */
     @RequestMapping("/call_qq")
-    public void callQQ(HttpServletRequest request, HttpServletResponse response){
+    public void callQQ(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=utf-8");
         try {
             APIConfig.getInstance().setOpenid_qq(appContext.getConfig().get(SiteConfig.QQ_APP_ID));
             APIConfig.getInstance().setOpenkey_qq(appContext.getConfig().get(SiteConfig.QQ_APP_KEY));
-            APIConfig.getInstance().setRedirect_qq(appContext.getConfig().get(SiteConfig.SITE_OAUTH_QQ));
+            APIConfig.getInstance().setRedirect_qq(appContext.getConfig().get(SiteConfig.QQ_CALLBACK));
 
             String state = TokenUtil.randomState();
             request.getSession().setAttribute(SESSION_STATE, state);
@@ -192,6 +191,7 @@ public class CallbackController extends BaseController {
 
     /**
      * 跳转到github授权页面
+     *
      * @param request
      * @param response
      */
@@ -200,7 +200,7 @@ public class CallbackController extends BaseController {
         //设置github的相关
         APIConfig.getInstance().setOpenid_github(appContext.getConfig().get(SiteConfig.GITHUB_CLIENT_ID));
         APIConfig.getInstance().setOpenkey_github(appContext.getConfig().get(SiteConfig.GITHUB_SECRET_KEY));
-        APIConfig.getInstance().setRedirect_github(appContext.getConfig().get(SiteConfig.SITE_OAUTH_GITHUB));
+        APIConfig.getInstance().setRedirect_github(appContext.getConfig().get(SiteConfig.GITHUB_CALLBACK));
 
         try {
             response.setContentType("text/html;charset=utf-8");
@@ -216,6 +216,7 @@ public class CallbackController extends BaseController {
 
     /**
      * github回调
+     *
      * @param code
      * @param state
      * @param request
@@ -266,17 +267,18 @@ public class CallbackController extends BaseController {
 
     /**
      * 跳转到豆瓣授权界面
+     *
      * @param request
      * @param response
      * @author A蛋壳  2015年9月12日 下午3:09:39
      */
     @RequestMapping("/call_douban")
-    public void callDouban(HttpServletRequest request, HttpServletResponse response){
+    public void callDouban(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=utf-8");
         try {
             APIConfig.getInstance().setOpenid_douban(appContext.getConfig().get(SiteConfig.DOUBAN_API_KEY));
             APIConfig.getInstance().setOpenkey_douban(appContext.getConfig().get(SiteConfig.DOUBAN_SECRET_KEY));
-            APIConfig.getInstance().setRedirect_douban(appContext.getConfig().get(SiteConfig.SITE_OAUTH_DOUBAN));
+            APIConfig.getInstance().setRedirect_douban(appContext.getConfig().get(SiteConfig.DOUBAN_CALLBACK));
 
             String state = TokenUtil.randomState();
             request.getSession().setAttribute(SESSION_STATE, state);
@@ -288,6 +290,7 @@ public class CallbackController extends BaseController {
 
     /**
      * 豆瓣回调
+     *
      * @param code
      * @param state
      * @param request
@@ -295,7 +298,7 @@ public class CallbackController extends BaseController {
      * @author A蛋壳  2015年9月12日 下午5:32:51
      */
     @RequestMapping("/douban")
-    public String callBack4Douban(String code, String state, HttpServletRequest request, ModelMap model){
+    public String callBack4Douban(String code, String state, HttpServletRequest request, ModelMap model) {
         // --
         String session_state = (String) request.getSession().getAttribute(SESSION_STATE);
         // 取消了授权
@@ -335,6 +338,7 @@ public class CallbackController extends BaseController {
 
     /**
      * 执行第三方注册绑定
+     *
      * @param openOauth
      * @param request
      * @return
@@ -351,7 +355,7 @@ public class CallbackController extends BaseController {
             // 不存在：注册新用户，并绑定此token，登录
         } else {
             UserVO user = userService.getByUsername(username);
-            if(user == null){
+            if (user == null) {
                 UserVO u = userService.register(wrapUser(openOauth));
 
                 // ===将远程图片下载到本地===
@@ -381,11 +385,9 @@ public class CallbackController extends BaseController {
         String ret = view(Views.LOGIN);
 
         if (StringUtils.isNotBlank(username)) {
-            AuthenticationToken token = createToken(username, accessToken);
-
+            UsernamePasswordToken token = createToken(username, accessToken);
             try {
                 SecurityUtils.getSubject().login(token);
-
                 ret = Views.REDIRECT_USER;
             } catch (AuthenticationException e) {
                 logger.error(e);
@@ -408,20 +410,18 @@ public class CallbackController extends BaseController {
         user.setName(openOauth.getNickname());
         user.setPassword(openOauth.getAccessToken());
 
-        user.setSource(openOauth.getOauthType());
-
         if (StringUtils.isNotBlank(openOauth.getAvatar())) {
             //FIXME: 这里使用网络路径，前端应做对应处理
             user.setAvatar(openOauth.getAvatar());
         } else {
             user.setAvatar(Consts.AVATAR);
         }
-        return  user;
+        return user;
     }
 
     public String getAvaPath(long uid, int size) {
-		String base = FilePathUtils.getAvatar(uid);
-		return String.format("/%s_%d.jpg", base, size);
-	}
+        String base = FilePathUtils.getAvatar(uid);
+        return String.format("/%s_%d.jpg", base, size);
+    }
 
 }

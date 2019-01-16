@@ -1,9 +1,10 @@
-package com.mtons.mblog.plugins;
+package com.mtons.mblog.core.hook.interceptor.impl;
 
+import com.mtons.mblog.core.hook.interceptor.InterceptorHookSupport;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.PostVO;
-import com.mtons.mblog.core.hook.interceptor.desk.ChannelControllerHook;
 import com.mtons.mblog.modules.service.CommentService;
+import com.mtons.mblog.web.controller.site.ChannelController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
@@ -20,9 +21,16 @@ import java.util.List;
  * @author Beldon
  */
 @Component
-public class HidenContentPugin implements ChannelControllerHook.ChannelControllerInterceptorListener {
+public class HidenContentPugin extends InterceptorHookSupport {
     @Autowired
     private CommentService commentService;
+
+    private static final String SHOW = "<blockquote>隐藏内容，请回复后查看</blockquote>";
+    @Override
+    public String[] getInterceptor() {
+        //说明要拦截的controller
+        return new String[]{ChannelController.class.getName()};
+    }
 
     @Override
     public void preHandle(HttpServletRequest request, HttpServletResponse response, HandlerMethod handler) throws Exception {
@@ -51,16 +59,15 @@ public class HidenContentPugin implements ChannelControllerHook.ChannelControlle
     }
 
     private String replace(String content) {
-        String c = content.replaceAll("<hide>([\\s\\S]*)</hide>", "隐藏内容，请回复后查看");
-        c = c.replaceAll("&lt;hide&gt;([\\s\\S]*)&lt;/hide&gt;", "隐藏内容，请回复后查看");
+        String c = content.replaceAll("<hide>([\\s\\S]*)</hide>", SHOW);
+        c = c.replaceAll("&lt;hide&gt;([\\s\\S]*)&lt;/hide&gt;", SHOW);
         return c;
     }
 
     private boolean check(long id, long userId) {
         Subject subject = SecurityUtils.getSubject();
-        Object o = subject.getSession().getAttribute("profile");
-        if (o != null) {
-            AccountProfile profile = (AccountProfile) o;
+        AccountProfile profile = (AccountProfile) subject.getPrincipal();
+        if (profile != null) {
             if (profile.getId() == userId) {
                 return false;
             }

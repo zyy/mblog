@@ -27,7 +27,5 @@ public interface VerifyService {
      * @param code
      * @return token
      */
-    String verify(long userId, int type, String code);
-
-    void verifyToken(long userId, int type, String token);
+    boolean verify(long userId, int type, String code);
 }

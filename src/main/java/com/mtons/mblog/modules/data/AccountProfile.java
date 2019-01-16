@@ -27,8 +27,6 @@ public class AccountProfile implements Serializable {
     private Date lastLogin;
     private int status;
 
-    private int activeEmail;
-
     private BadgesCount badgesCount;
 
     public AccountProfile(long id, String username) {
@@ -90,14 +88,6 @@ public class AccountProfile implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public int getActiveEmail() {
-        return activeEmail;
-    }
-
-    public void setActiveEmail(int activeEmail) {
-        this.activeEmail = activeEmail;
     }
 
     public BadgesCount getBadgesCount() {

@@ -38,7 +38,7 @@ public class AuthenticatedFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
+        if (subject.isAuthenticated() || subject.isRemembered()) {
             chain.doFilter(request, response);
         } else {
             WebUtils.saveRequest(request);

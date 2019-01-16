@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 public interface InterceptorHook {
 
     /**
-     * 获取拦截名,可以同时获取多个拦截， 如 return new String[]{"mblog.web.controller.desk.group.GroupVidewController"};
+     * 获取拦截名,可以同时获取多个拦截， 如 return new String[]{"mblog.web.controller.impl.group.GroupVidewController"};
      * <p>
-     * 也可以拦截Controller里面的方法，格式如：return new String[]{"mblog.web.controller.desk.group.GroupVidewController#view"};
+     * 也可以拦截Controller里面的方法，格式如：return new String[]{"mblog.web.controller.impl.group.GroupVidewController#view"};
      *
      * @return
      */

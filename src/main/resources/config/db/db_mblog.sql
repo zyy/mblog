@@ -68,15 +68,16 @@ INSERT INTO `mto_config` VALUES (5, 'site_description', '0', 'Mtons, 做一个�
 INSERT INTO `mto_config` VALUES (6, 'site_metas', '0', '');
 INSERT INTO `mto_config` VALUES (7, 'site_copyright', '0', 'Copyright © Mtons');
 INSERT INTO `mto_config` VALUES (8, 'site_icp', '0', '');
-INSERT INTO `mto_config` VALUES (11, 'site_oauth_qq', '0', '');
+INSERT INTO `mto_config` VALUES (11, 'qq_callback', '0', '');
 INSERT INTO `mto_config` VALUES (12, 'qq_app_id', '0', '');
 INSERT INTO `mto_config` VALUES (13, 'qq_app_key', '0', '');
-INSERT INTO `mto_config` VALUES (14, 'site_oauth_weibo', '0', '');
+INSERT INTO `mto_config` VALUES (14, 'weibo_callback', '0', '');
 INSERT INTO `mto_config` VALUES (15, 'weibo_client_id', '0', '');
 INSERT INTO `mto_config` VALUES (16, 'weibo_client_sercret', '0', '');
+INSERT INTO `mto_config` VALUES (23, 'github_callback', '0', '');
 INSERT INTO `mto_config` VALUES (24, 'github_client_id', '0', '');
 INSERT INTO `mto_config` VALUES (25, 'github_secret_key', '0', '');
-INSERT INTO `mto_config` VALUES (26, 'site_oauth_github', '0', '');
+
 
 COMMIT;
 
@@ -84,36 +85,33 @@ COMMIT;
 --  Table structure for `mto_users`
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_users`;
-CREATE TABLE `mto_users` (
+CREATE TABLE `mto_users`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `created` datetime DEFAULT NULL,
+  `username` varchar(64)  DEFAULT NULL,
+  `name` varchar(64)  DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT '/dist/images/ava/default.png',
   `email` varchar(128) DEFAULT NULL,
-  `last_login` datetime DEFAULT NULL,
-  `mobile` varchar(11) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
   `status` int(11) NOT NULL,
-  `username` varchar(64) DEFAULT NULL,
-  `name` varchar(64) DEFAULT NULL,
-  `avatar` varchar(255) DEFAULT '/assets/images/ava/default.png',
-  `updated` datetime DEFAULT NULL,
+  `created` datetime(0) NULL DEFAULT NULL,
+  `updated` datetime(0) NULL DEFAULT NULL,
+  `last_login` datetime(0) NULL DEFAULT NULL,
   `gender` int(11) NOT NULL,
-  `role_id` int(11) DEFAULT NULL,
-  `source` int(11) NOT NULL,
-  `active_email` int(11) DEFAULT NULL,
+  `role_id` int(11) NULL DEFAULT NULL,
   `comments` int(11) NOT NULL,
   `fans` int(11) NOT NULL,
   `favors` int(11) NOT NULL,
   `follows` int(11) NOT NULL,
   `posts` int(11) NOT NULL,
-  `signature` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `signature` varchar(140) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `mto_users`
 -- ----------------------------
 BEGIN;
-INSERT INTO `mto_users` VALUES ('1', '2017-08-06 17:52:41', 'example@mtons.com', '2017-10-17 13:24:13', null, '3TGCQF25BLHU9R7IQUITN0FCC5', '0', 'admin', '小豆丁', '/dist/images/ava/default.png', '2017-07-26 11:08:36', '0', '1', '0', '0', '6', '-2', '0', '-2', '19', '');
+INSERT INTO `mto_users` VALUES (1, 'admin', '小豆丁', '/dist/images/ava/default.png', 'example@mtons.com', '3TGCQF25BLHU9R7IQUITN0FCC5', 0, '2017-08-06 17:52:41', '2017-07-26 11:08:36', '2017-10-17 13:24:13', 0, 1, 0, 0, 0, 0, 0, '');
 COMMIT;
 
 -- ----------------------------

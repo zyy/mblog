@@ -54,20 +54,19 @@ public class LoginController extends BaseController {
 		if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             return ret;
         }
-		
-		AuthenticationToken token = createToken(username, password);
+
+        UsernamePasswordToken token = createToken(username, password);
         if (token == null) {
         	model.put("message", "用户名或密码错误");
             return ret;
         }
 
         if (rememberMe == 1) {
-            ((UsernamePasswordToken) token).setRememberMe(true);
+            token.setRememberMe(true);
         }
 
         try {
             SecurityUtils.getSubject().login(token);
-
             ret = Views.REDIRECT_USER;
         } catch (AuthenticationException e) {
             if (e instanceof UnknownAccountException) {
@@ -78,7 +77,6 @@ public class LoginController extends BaseController {
             	model.put("message", "用户认证失败");
             }
         }
-
         return ret;
 	}
 

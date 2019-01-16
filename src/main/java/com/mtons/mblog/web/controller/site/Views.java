@@ -22,8 +22,7 @@ public interface Views {
 	String REGISTER_RESULT = "/auth/register_result";
 	String OAUTH_REGISTER = "/auth/oauth_register";
 
-	String FORGOT_APPLY = "/auth/forgot_apply";
-	String FORGOT_RESET = "/auth/forgot_reset";
+	String FORGOT = "/auth/forgot";
 
 	String INDEX = "/index";
 

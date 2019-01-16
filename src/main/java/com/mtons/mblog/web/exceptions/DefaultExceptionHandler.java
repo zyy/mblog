@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.mtons.mblog.base.data.Data;
+import com.mtons.mblog.base.lang.MtonsException;
 import org.apache.log4j.Logger;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
@@ -40,8 +41,12 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
-		
-		log.error(ex.getMessage(), ex);
+
+		if (ex instanceof IllegalArgumentException || ex instanceof IllegalStateException || ex instanceof MtonsException) {
+			log.error(ex.getMessage());
+		} else {
+			log.error(ex.getMessage(), ex);
+		}
 
 		ModelAndView view = null;
 		String ret = ex.getMessage();

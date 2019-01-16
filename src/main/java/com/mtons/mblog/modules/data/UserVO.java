@@ -28,7 +28,6 @@ public class UserVO implements Serializable {
 	private String avatar;
 	private String name;
 	private String email;
-	private String mobile;
 
 	private int posts; // 文章数
 	private int comments; // 发布评论数
@@ -37,13 +36,10 @@ public class UserVO implements Serializable {
 	private int favors; // 收到的喜欢数
 
 	private Date created;
-	private int source; // 用户来源，主要用于第三方注册用户
-
 	private Date lastLogin;
 	private String signature; // 个性签名
 
 	private int status;
-	private int activeEmail;
 
 	@JSONField(serialize = false)
 	private List<Role> roles = new ArrayList<Role>();
@@ -88,14 +84,6 @@ public class UserVO implements Serializable {
 		this.email = email;
 	}
 
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
 	public Date getCreated() {
 		return created;
 	}
@@ -126,22 +114,6 @@ public class UserVO implements Serializable {
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
-	}
-
-	public int getSource() {
-		return source;
-	}
-
-	public void setSource(int source) {
-		this.source = source;
-	}
-
-	public int getActiveEmail() {
-		return activeEmail;
-	}
-
-	public void setActiveEmail(int activeEmail) {
-		this.activeEmail = activeEmail;
 	}
 
 	public int getPosts() {

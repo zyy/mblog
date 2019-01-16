@@ -4,22 +4,18 @@ import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.base.lang.Consts;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.UserVO;
+import com.mtons.mblog.modules.service.UserService;
 import com.mtons.mblog.modules.service.VerifyService;
 import com.mtons.mblog.web.controller.BaseController;
-import com.mtons.mblog.web.controller.site.Views;
-import com.mtons.mblog.base.utils.MailHelper;
-import com.mtons.mblog.modules.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 /**
  * @author langhsu on 2015/8/14.
@@ -31,86 +27,31 @@ public class EmailController extends BaseController {
     private UserService userService;
     @Autowired
     private VerifyService verifyService;
-    @Autowired
-    private MailHelper mailHelper;
-    @Autowired
-    private ExecutorService executorService;
 
-    @RequestMapping(value = "/retry/{userId}", method = RequestMethod.GET)
-    public String retry(@PathVariable("userId") Long userId, Integer type, ModelMap model) {
-        Assert.notNull(userId, "缺少必要的参数");
+    @GetMapping("/send_code")
+    @ResponseBody
+    public Data sendCode(String email, Integer type) {
+        Assert.notNull(email, "请输入邮箱地址");
         Assert.notNull(type, "缺少必要的参数");
 
-        String template = Consts.EMAIL_TEMPLATE_BIND;
-        String subject = "邮箱绑定验证";
+        long userId;
 
-        if (type == Consts.VERIFY_FORGOT) {
-            template = Consts.EMAIL_TEMPLATE_FORGOT;
-            subject = "找回密码";
+        if (Consts.VERIFY_FORGOT == type) {
+            UserVO user = userService.getByEmail(email);
+            Assert.notNull(user, "账户不存在");
+            userId = user.getId();
+        } else {
+            AccountProfile profile = getProfile();
+            Assert.notNull(profile, "请先登录后再进行此操作");
+            userId = profile.getId();
         }
 
-        UserVO user = userService.get(userId);
-
-        String code = verifyService.generateCode(user.getId(), type, user.getEmail());
+        String code = verifyService.generateCode(userId, type, email);
         Map<String, Object> context = new HashMap<>();
-        context.put("userId", user.getId());
         context.put("code", code);
 
-        sendEmail(template, user.getEmail(), subject, context);
-
-        Data data = Data.success("邮件发送成功", Data.NOOP);
-        model.put("data", data);
-
-        data.addLink("email/retry/" + userId + "?type=" + type, "没收到? 再来一发");
-
-        return view(Views.REGISTER_RESULT);
-    }
-
-    @RequestMapping(value = "/bind/{userId}", method = RequestMethod.GET)
-    public String bind(@PathVariable("userId") Long userId, Integer type, String code, ModelMap model) {
-        Assert.notNull(userId, "缺少必要的参数");
-        Data data;
-        try {
-            verifyService.verify(userId, Consts.VERIFY_BIND, code);
-            AccountProfile p = userService.updateActiveEmail(userId, Consts.ACTIVE_EMAIL);
-
-            putProfile(p);
-
-            data = Data.success("恭喜您! 邮箱绑定成功。", Data.NOOP);
-
-            data.addLink("index", "返回首页");
-        } catch (Exception e) {
-            data = Data.failure(e.getMessage());
-
-            // data.addLink("email/retry/" + userId + "?type=" +type, "重发邮件");
-        }
-
-        model.put("type", type);
-        model.put("userId", userId);
-        model.put("data", data);
-        return view(Views.REGISTER_RESULT);
-    }
-
-    @RequestMapping(value = "/forgot/{userId}", method = RequestMethod.GET)
-    public String forgot(@PathVariable("userId") Long userId, Integer type, String code, ModelMap model) {
-        Assert.notNull(userId, "缺少必要的参数");
-
-        model.put("userId", userId);
-        Data data;
-        try {
-            String token = verifyService.verify(userId, Consts.VERIFY_FORGOT, code);
-            model.put("token", token);
-
-            return view(Views.FORGOT_RESET);
-        } catch (Exception e) {
-            data = Data.failure(e.getMessage());
-
-            // data.addLink("email/retry/" + userId + "?type=" +type, "重发邮件");
-        }
-
-        model.put("type", type);
-        model.put("data", data);
-        return view(Views.REGISTER_RESULT);
+        sendEmail(Consts.EMAIL_TEMPLATE_CODE, email, "邮箱验证码", context);
+        return Data.success("邮件发送成功", Data.NOOP);
     }
 
 }

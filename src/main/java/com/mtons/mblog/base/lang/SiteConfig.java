@@ -21,17 +21,19 @@ public interface SiteConfig {
     /**
      * 第三方回调地址
      */
-    String SITE_OAUTH_QQ = "site_oauth_qq"; // 第三方登录-QQ回调地址
-    String SITE_OAUTH_WEIBO = "site_oauth_weibo"; // 第三方登录-微博回调地址
-    String SITE_OAUTH_DOUBAN = "site_oauth_douban";	// 第三方登录-豆瓣回调地址
-    String SITE_OAUTH_GITHUB = "site_oauth_github";	// 第三方登录-github回调地址
+    String QQ_CALLBACK = "qq_callback"; // 第三方登录-QQ回调地址
     String QQ_APP_ID = "qq_app_id";			// QQ互联APP_ID
     String QQ_APP_KEY = "qq_app_key";		// QQ互联APP_KEY
+
+    String WEIBO_CALLBACK = "weibo_callback"; // 第三方登录-微博回调地址
     String WEIBO_CLIENT_ID = "weibo_client_id";		// 微博应用CLIENT_ID
     String WEIBO_CLIENT_SERCRET = "weibo_client_sercret";	// 微博应用CLIENT_SERCRET
+
+    String DOUBAN_CALLBACK = "douban_callback";	// 第三方登录-豆瓣回调地址
     String DOUBAN_API_KEY = "douban_api_key";		// 豆瓣API_KEY
     String DOUBAN_SECRET_KEY = "douban_secret_key";		// 豆瓣SECRET_KEY
+
+    String GITHUB_CALLBACK = "github_callback";	// 第三方登录-github回调地址
     String GITHUB_CLIENT_ID = "github_client_id";//github应用CLIENT_ID
     String GITHUB_SECRET_KEY = "github_secret_key";//github应用SECRET_KEY
-
 }

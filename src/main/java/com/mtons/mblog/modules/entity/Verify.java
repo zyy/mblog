@@ -47,8 +47,6 @@ public class Verify {
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date created; // 创建时间
 
-    private String token;
-
     @Column
     private int status; // 状态：正常、关闭
 
@@ -116,11 +114,4 @@ public class Verify {
         this.status = status;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

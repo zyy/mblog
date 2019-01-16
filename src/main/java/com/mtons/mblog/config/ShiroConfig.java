@@ -1,6 +1,7 @@
 package com.mtons.mblog.config;
 
 import com.mtons.mblog.shiro.filter.AuthenticatedFilter;
+import com.mtons.mblog.shiro.filter.RememberedFilter;
 import com.mtons.mblog.shiro.realm.AccountRealm;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -50,9 +51,9 @@ public class ShiroConfig {
      * session管理器(单机环境)
      */
     @Bean
-    public DefaultWebSessionManager defaultWebSessionManager(CacheManager cacheShiroManager) {
+    public DefaultWebSessionManager defaultWebSessionManager(CacheManager shiroCacheManager) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setCacheManager(cacheShiroManager);
+        sessionManager.setCacheManager(shiroCacheManager);
         sessionManager.setSessionValidationInterval(1800 * 1000);
         sessionManager.setGlobalSessionTimeout(900 * 1000);
         sessionManager.setDeleteInvalidSessions(true);
@@ -64,12 +65,11 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-
     /**
      * 缓存管理器 使用Ehcache实现
      */
     @Bean
-    public CacheManager getCacheShiroManager(EhCacheManagerFactoryBean ehcache) {
+    public CacheManager shiroCacheManager(EhCacheManagerFactoryBean ehcache) {
         EhCacheManager ehCacheManager = new EhCacheManager();
         ehCacheManager.setCacheManager(ehcache.getObject());
         return ehCacheManager;
@@ -89,7 +89,7 @@ public class ShiroConfig {
     @Bean
     public CookieRememberMeManager rememberMeManager(SimpleCookie rememberMeCookie) {
         CookieRememberMeManager manager = new CookieRememberMeManager();
-        manager.setCipherKey(Base64.decode("Z3VucwAAAAAAAAAAAAAAAA=="));
+        manager.setCipherKey(Base64.decode("bXRvbnMAAAAAAAAAAAAAAA=="));
         manager.setCookie(rememberMeCookie);
         return manager;
     }
@@ -112,24 +112,13 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
-        /**
-         * 默认的登陆访问url
-         */
         shiroFilter.setLoginUrl("/login");
-        /**
-         * 登陆成功后跳转的url
-         */
         shiroFilter.setSuccessUrl("/");
-        /**
-         * 没有权限跳转的url
-         */
         shiroFilter.setUnauthorizedUrl("/error/reject.html");
 
-        /**
-         * 覆盖默认的user拦截器(默认拦截器解决不了ajax请求 session超时的问题,若有更好的办法请及时反馈作者)
-         */
         HashMap<String, Filter> myFilters = new HashMap<>();
         myFilters.put("authc", new AuthenticatedFilter());
+        myFilters.put("remembered", new RememberedFilter());
         shiroFilter.setFilters(myFilters);
 
         /**
@@ -149,6 +138,7 @@ public class ShiroConfig {
         hashMap.put("/user*", "authc");
         hashMap.put("/user/**", "authc");
         hashMap.put("/post/**", "authc");
+        hashMap.put("/**", "remembered");
 
         hashMap.put("/admin", "authc,perms[admin]");
         hashMap.put("/admin/**", "authc,perms[admin]");

@@ -39,7 +39,7 @@ public class ContextStartup implements ApplicationRunner, Ordered, ServletContex
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        Timer timer = new Timer("init config");
+        Timer timer = new Timer("startup");
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

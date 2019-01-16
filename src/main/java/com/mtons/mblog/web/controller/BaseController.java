@@ -80,16 +80,14 @@ public class BaseController {
 	 */
 	protected AccountProfile getProfile(){
 		Subject subject = SecurityUtils.getSubject();
-		AccountProfile profile = (AccountProfile) subject.getPrincipal();
-		Assert.notNull(profile, "用户未登陆或登陆已过期");
-	    return profile;
+		return (AccountProfile) subject.getPrincipal();
 	}
 	
 	protected void putProfile(AccountProfile profile) {
 		SecurityUtils.getSubject().getSession(true).setAttribute("profile", profile);
 	}
 
-	protected AuthenticationToken createToken(String username, String password) {
+	protected UsernamePasswordToken createToken(String username, String password) {
 		return new UsernamePasswordToken(username, MD5.md5(password));
 	}
 

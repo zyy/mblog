@@ -1456,3 +1456,10 @@ abbr[data-original-title], abbr[title] {
 .site-scroll-top:hover {
     background-position: 0 -46px;
 }
+
+.copyright {
+    color: #888;
+    padding: 10px 15px;
+    background-color: #f4f5f3;
+    border-radius: 2px;
+}

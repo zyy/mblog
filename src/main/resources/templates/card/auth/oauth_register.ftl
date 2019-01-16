@@ -24,15 +24,9 @@
                         <label class="control-label" for="username">用户名</label>
                         <input class="form-control" name="username" type="text" value="${open.username}" data-required data-conditional="username" data-description="username" data-describedby="message">
                     </div>
-                    <div class="form-group ">
-                        <label class="control-label" for="password">昵称</label>
-                        <input class="form-control" name="nickname" type="text" value="${open.nickname}" data-required>
-                    </div>
-
                     <button type="submit" class="btn btn-success btn-block">
                         提  交
                     </button>
-
                 </form>
             </div>
         </div>

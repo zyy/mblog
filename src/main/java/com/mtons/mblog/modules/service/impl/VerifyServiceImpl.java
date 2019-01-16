@@ -40,7 +40,7 @@ public class VerifyServiceImpl implements VerifyService {
     public String generateCode(long userId, int type, String target) {
         Verify po = verifyDao.findByUserId(userId);
 
-        String code = RandomStringUtils.randomNumeric(10);
+        String code = RandomStringUtils.randomNumeric(6);
         Date now = new Date();
 
         if (po == null) {
@@ -75,7 +75,7 @@ public class VerifyServiceImpl implements VerifyService {
 
     @Override
     @Transactional
-    public String verify(long userId, int type, String code) {
+    public boolean verify(long userId, int type, String code) {
         Assert.hasLength(code, "验证码不能为空");
 
         Verify po = verifyDao.findByUserIdAndType(userId, type);
@@ -85,35 +85,13 @@ public class VerifyServiceImpl implements VerifyService {
         Date now = new Date();
 
         Assert.state(now.getTime() <= po.getExpired().getTime(), "验证码已过期");
-
+        Assert.isTrue(po.getType() == type, "验证码类型错误");
         Assert.isTrue(po.getStatus() == Consts.VERIFY_STATUS_INIT, "验证码已经使用过");
-
         Assert.state(code.equals(po.getCode()), "验证码不对");
 
-        String token = RandomStringUtils.randomNumeric(8);
-        po.setToken(token);
-
-        po.setStatus(Consts.VERIFY_STATUS_TOKEN);
-
-        verifyDao.save(po);
-        return token;
-    }
-
-    @Override
-    @Transactional
-    public void verifyToken(long userId, int type, String token) {
-        Assert.hasLength(token, "验证码不能为空");
-
-        Verify po = verifyDao.findByUserIdAndType(userId, type);
-
-        Assert.notNull(po, "您没有进行过类型验证");
-
-        Assert.isTrue(po.getStatus() == Consts.VERIFY_STATUS_TOKEN, "操作步骤不对");
-
-        Assert.state(token.equals(po.getToken()), "令牌不对");
-
         po.setStatus(Consts.VERIFY_STATUS_CERTIFIED);
-
         verifyDao.save(po);
+        return true;
     }
+
 }

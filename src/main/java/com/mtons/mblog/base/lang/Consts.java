@@ -63,10 +63,7 @@ public interface Consts {
 	int VERIFY_FORGOT = 2; // forgot password
 
 	int VERIFY_STATUS_INIT = 0;      // 验证码-初始
-	int VERIFY_STATUS_TOKEN = 1;     // 验证码-已生成token
-	int VERIFY_STATUS_CERTIFIED = 2; // 验证码-已使用
-
-	int ACTIVE_EMAIL = 1; // 邮箱激活
+	int VERIFY_STATUS_CERTIFIED = 1; // 验证码-已使用
 
 	int FEEDS_TYPE_POST = 1; // 动态类型 - 发布文章
 
@@ -91,6 +88,5 @@ public interface Consts {
 
 	int NOTIFY_EVENT_COMMENT_REPLY = 4; // 有人回复了你
 
-	String EMAIL_TEMPLATE_FORGOT = "forgot.ftl";
-	String EMAIL_TEMPLATE_BIND = "bind.ftl";
+	String EMAIL_TEMPLATE_CODE = "email_code.ftl";
 }
