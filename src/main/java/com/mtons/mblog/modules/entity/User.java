@@ -49,12 +49,6 @@ public class User {
 
 	private int comments; // 发布评论数
 
-	private int follows; // 关注人数
-
-	private int fans; // 粉丝数
-
-	private int favors; // 收到的喜欢数
-
 	private Date created;  // 注册时间
 
 	@Column(name = "last_login")
@@ -166,30 +160,6 @@ public class User {
 
 	public void setComments(int comments) {
 		this.comments = comments;
-	}
-
-	public int getFollows() {
-		return follows;
-	}
-
-	public void setFollows(int follows) {
-		this.follows = follows;
-	}
-
-	public int getFans() {
-		return fans;
-	}
-
-	public void setFans(int fans) {
-		this.fans = fans;
-	}
-
-	public int getFavors() {
-		return favors;
-	}
-
-	public void setFavors(int favors) {
-		this.favors = favors;
 	}
 
 	public String getSignature() {

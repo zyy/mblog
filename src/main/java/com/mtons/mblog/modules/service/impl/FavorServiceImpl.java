@@ -32,7 +32,7 @@ public class FavorServiceImpl implements FavorService {
     public void add(long userId, long postId) {
         Favor po = favorDao.findByOwnIdAndPostId(userId, postId);
 
-        Assert.isNull(po, "已经喜欢过此文章了");
+        Assert.isNull(po, "您已经收藏过此文章");
 
         // 如果没有喜欢过, 则添加记录
         po = new Favor();

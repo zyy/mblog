@@ -32,9 +32,7 @@
                                     <a href="${base}/users/${row.from.id}">${row.from.name}</a>
                                     <span>
                                         <#if (row.event == 1)>
-                                            喜欢了你的文章 - <a href="${base}/view/${row.postId}">${row.post.title}</a>
-                                        <#elseif (row.event == 2)>
-                                            关注了你, 你的粉丝+1
+                                            收藏了你的文章 - <a href="${base}/view/${row.postId}">${row.post.title}</a>
                                         <#elseif (row.event == 3)>
                                             评论了你的文章 - <a href="${base}/view/${row.postId}">点击查看详情</a>
                                         <#elseif (row.event == 4)>

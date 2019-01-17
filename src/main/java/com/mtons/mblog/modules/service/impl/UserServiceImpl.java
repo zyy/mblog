@@ -171,9 +171,9 @@ public class UserServiceImpl implements UserService {
 
 	
 	@Override
-	public List<UserVO> findHotUserByfans(){
+	public List<UserVO> findHotUserByLastIn(){
 		List<UserVO> rets = new ArrayList<>();
-		List<User> list = userDao.findTop12ByOrderByFansDesc();
+		List<User> list = userDao.findTop12ByOrderByLastLoginDesc();
 		for (User po : list) {
 			UserVO u = BeanMapUtils.copy(po , 0);
 			rets.add(u);

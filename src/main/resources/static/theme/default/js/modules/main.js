@@ -68,40 +68,6 @@ define(function(require, exports, module) {
 			}
 		});
 
-		// Follow
-		$('a[rel=follow]').click(function () {
-			var that = $(this);
-			var id = that.attr('data-id');
-
-			if (!Authc.isAuthced()) {
-				Authc.showLogin();
-				return false;
-			}
-
-			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/user/follow', {'id': id}, function (ret) {
-					if (ret.code >=0) {
-						that.html('<i class="icon icon-user-following"></i> 已关注');
-					} else {
-						layer.msg(ret.message, {icon: 2});
-					}
-				});
-			}
-		});
-
-		$('a[rel=follow]').each(function () {
-			var that = $(this);
-			var id = that.attr('data-id');
-
-			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/user/check_follow', {'id': id}, function (ret) {
-					if (ret.code >=0 && ret.data) {
-						that.html('<i class="icon icon-user-following"></i> 已关注');
-					}
-				});
-			}
-		});
-
 		//$(document).pjax('a[rel=pjax]', '#wrap', {
 		//	fragment: '#wrap',
 		//	timeout: 10000,

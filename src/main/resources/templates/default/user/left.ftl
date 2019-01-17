@@ -11,7 +11,17 @@
         </div>
     </li>
     <li class="list-group-item">
-        <a class="btn btn-primary btn-block btn-sm" href="${base}/user/profile"><i class="icon icon-note"></i> 修改账户</a>
+        <div class="user-datas">
+            <ul>
+                <li><strong>${user.posts}</strong><span>发布</span></li>
+                <li class="noborder"><strong>${user.comments}</strong><span>评论</span></li>
+            </ul>
+        </div>
+    </li>
+    <li class="list-group-item">
+        <a class="btn btn-primary btn-block btn-sm" href="${base}/user/profile">
+            <i class="icon icon-note"></i> 编辑个人资料
+        </a>
     </li>
 </ul>
 <nav class="navbar navbar-default shadow-box background-white">
@@ -30,25 +40,13 @@
     <div id="home-navbar" class="collapse navbar-collapse">
         <ul class="list-group user-nav first">
             <li class="list-group-item">
-                <a href="${base}/user"><i class="icon icon-layers"></i> 动态</a>
-            </li>
-            <li class="list-group-item">
-                <a href="${base}/user?method=posts"><i class="icon icon-list"></i> 我的文章</a>
+                <a href="${base}/user"><i class="icon icon-list"></i> 我的文章</a>
             </li>
             <li class="list-group-item">
                 <a href="${base}/user?method=comments"><i class="icon icon-speech"></i> 我的评论</a>
             </li>
-        </ul>
-
-        <ul class="list-group user-nav">
             <li class="list-group-item">
-                <a href="${base}/user?method=favors"><i class="icon icon-heart"></i> 我的喜欢</a>
-            </li>
-            <li class="list-group-item">
-                <a href="${base}/user?method=follows"><i class="icon icon-user-following"></i> 我的关注</a>
-            </li>
-            <li class="list-group-item">
-                <a href="${base}/user?method=fans"><i class="icon icon-user-follow"></i> 我的粉丝</a>
+                <a href="${base}/user?method=favors"><i class="icon icon-heart"></i> 我的收藏</a>
             </li>
         </ul>
 

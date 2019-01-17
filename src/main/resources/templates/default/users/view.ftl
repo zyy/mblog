@@ -15,7 +15,12 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a class="btn btn-primary btn-block btn-sm" href="javascript:void(0);" data-id="${user.id}" rel="follow"><i class="icon icon-user-follow"></i> 关注</a>
+                <div class="user-datas">
+                    <ul>
+                        <li><strong>${user.posts}</strong><span>发布</span></li>
+                        <li class="noborder"><strong>${user.comments}</strong><span>评论</span></li>
+                    </ul>
+                </div>
             </li>
 			<li class="list-group-item">
                 <span>

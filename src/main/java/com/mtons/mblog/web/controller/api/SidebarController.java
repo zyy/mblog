@@ -105,7 +105,7 @@ public class SidebarController extends BaseController {
 	 */
 	@RequestMapping(value="/hotusers")
 	public @ResponseBody List<UserVO> hotusers(Integer pn) {
-		List<UserVO> rets = userService.findHotUserByfans();
+		List<UserVO> rets = userService.findHotUserByLastIn();
          return rets;
 	}
 }

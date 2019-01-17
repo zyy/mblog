@@ -30,7 +30,7 @@ public interface UserDao extends JpaRepository<User, Long>, JpaSpecificationExec
 
     User findByEmail(String email);
     
-    List<User> findTop12ByOrderByFansDesc();
+    List<User> findTop12ByOrderByLastLoginDesc();
 
     Page<User> findAllByOrderByIdDesc(Pageable pageable);
 
@@ -45,20 +45,4 @@ public interface UserDao extends JpaRepository<User, Long>, JpaSpecificationExec
     @Transactional
     @Query("update User set comments = comments + :increment where id = :id")
     int updateComments(@Param("id") long id, @Param("increment") int increment);
-
-    @Modifying
-    @Transactional
-    @Query("update User set follows = follows + :increment where id = :id")
-    int updateFollows(@Param("id") long id, @Param("increment") int increment);
-
-    @Modifying
-    @Transactional
-    @Query("update User set fans = fans + :increment where id = :id")
-    int updateFans(@Param("id") long id, @Param("increment") int increment);
-
-    @Modifying
-    @Transactional
-    @Query("update User set favors = favors + :increment where id = :id")
-    int updateFavors(@Param("id") long id, @Param("increment") int increment);
-
 }

@@ -11,13 +11,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author langhsu on 2015/8/31.
  */
-@Controller
+@RestController
 @RequestMapping("/user")
 public class FavorController extends BaseController {
     @Autowired
@@ -26,14 +27,12 @@ public class FavorController extends BaseController {
     private ApplicationContext applicationContext;
 
     /**
-     * 喜欢文章
+     * 收藏文章
      * @param id
-     * @param request
      * @return
      */
     @RequestMapping("/favor")
-    public @ResponseBody
-    Data favor(Long id, HttpServletRequest request) {
+    public Data favor(Long id) {
         Data data = Data.failure("操作失败");
         if (id != null) {
             try {
@@ -57,7 +56,7 @@ public class FavorController extends BaseController {
      * @return
      */
     @RequestMapping("/unfavor")
-    public @ResponseBody Data unfavor(Long id, HttpServletRequest request) {
+    public Data unfavor(Long id, HttpServletRequest request) {
         Data data = Data.failure("操作失败");
         if (id != null) {
             try {

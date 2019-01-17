@@ -36,18 +36,4 @@ public class UserEventServiceImpl implements UserEventService {
         userDao.updateComments(userId, (identity) ? Consts.IDENTITY_STEP : Consts.DECREASE_STEP);
     }
 
-    @Override
-    public void identityFollow(Long userId, long followId, boolean identity) {
-        userDao.updateFollows(userId, (identity) ? Consts.IDENTITY_STEP : Consts.DECREASE_STEP);
-    }
-
-    @Override
-    public void identityFans(Long userId, long fansId, boolean identity) {
-        userDao.updateFans(userId, (identity) ? Consts.IDENTITY_STEP : Consts.DECREASE_STEP);
-    }
-
-    @Override
-    public void identityFavors(Long userId, boolean identity, int targetType, long targetId) {
-        userDao.updateFavors(userId, (identity) ? Consts.IDENTITY_STEP : Consts.DECREASE_STEP);
-    }
 }

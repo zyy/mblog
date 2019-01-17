@@ -10,18 +10,14 @@
         <!-- view show -->
         <div class="topic panel panel-default">
             <div class="infos panel-heading">
-
                 <h1 class="panel-title topic-title">${view.title}</h1>
-
                 <div class="meta inline-block">
-
                     <a class="author" href="${base}/users/${view.author.id}">
                     ${view.author.name}
                     </a>
                     <abbr class="timeago">${timeAgo(view.created)}</abbr>
                     ⋅
-                ${view.views} 阅读
-
+                    ${view.views} 阅读
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -97,10 +93,6 @@
             </li>
 
             <li class="list-group-item">
-                <a class="btn btn-primary btn-block btn-sm" href="javascript:void(0);" data-id="${view.author.id}" rel="follow"><i class="icon icon-user-follow"></i> 关注</a>
-            </li>
-
-            <li class="list-group-item">
                 <div class="user-datas">
                     <ul>
                         <li><strong>${view.author.posts}</strong><span>发布</span></li>
@@ -111,9 +103,8 @@
             <li class="list-group-item">
                 <div class="text-center">
                     <a class="btn btn-default btn-sm" href="javascript:void(0);" data-id="${view.id}" rel="favor">
-                        <i class="icon icon-like"></i> 喜欢
+                        <i class="icon icon-like"></i> 收藏 <strong id="favors">${view.favors}</strong>
                     </a>
-                    <strong id="favors">${view.favors}</strong> 喜欢
                 </div>
             </li>
         </ul>

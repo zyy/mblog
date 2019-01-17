@@ -107,5 +107,5 @@ public interface UserService {
 
 	Map<Long, UserVO> findMapByIds(Set<Long> ids);
 
-	List<UserVO> findHotUserByfans();
+	List<UserVO> findHotUserByLastIn();
 }

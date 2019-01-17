@@ -31,9 +31,6 @@ public class UserVO implements Serializable {
 
 	private int posts; // 文章数
 	private int comments; // 发布评论数
-	private int follows; // 关注人数
-	private int fans; // 粉丝数
-	private int favors; // 收到的喜欢数
 
 	private Date created;
 	private Date lastLogin;
@@ -130,30 +127,6 @@ public class UserVO implements Serializable {
 
 	public void setComments(int comments) {
 		this.comments = comments;
-	}
-
-	public int getFollows() {
-		return follows;
-	}
-
-	public void setFollows(int follows) {
-		this.follows = follows;
-	}
-
-	public int getFans() {
-		return fans;
-	}
-
-	public void setFans(int fans) {
-		this.fans = fans;
-	}
-
-	public int getFavors() {
-		return favors;
-	}
-
-	public void setFavors(int favors) {
-		this.favors = favors;
 	}
 
 	public String getSignature() {

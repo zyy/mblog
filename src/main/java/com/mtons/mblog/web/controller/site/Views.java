@@ -26,13 +26,9 @@ public interface Views {
 
 	String INDEX = "/index";
 
-	String USER_FEEDS = "/user/method_feeds";
 	String USER_POSTS = "/user/method_posts";
-
 	String USER_COMMENTS = "/user/method_comments";
-	String USER_FOLLOWS = "/user/method_follows";
 	String USER_FAVORS = "/user/method_favors";
-	String USER_FANS = "/user/method_fans";
 	String USER_NOTIFIES = "/user/method_notifies";
 
 	String REDIRECT_USER = "redirect:/user";

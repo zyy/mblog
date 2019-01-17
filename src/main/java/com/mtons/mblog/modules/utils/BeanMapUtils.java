@@ -12,11 +12,9 @@ package com.mtons.mblog.modules.utils;
 import com.mtons.mblog.modules.entity.User;
 import com.mtons.mblog.modules.data.CommentVO;
 import com.mtons.mblog.modules.data.FavorVO;
-import com.mtons.mblog.modules.data.FeedsVO;
 import com.mtons.mblog.modules.data.PostVO;
 import com.mtons.mblog.modules.entity.Comment;
 import com.mtons.mblog.modules.entity.Favor;
-import com.mtons.mblog.modules.entity.Feeds;
 import com.mtons.mblog.modules.entity.Post;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.NotifyVO;
@@ -66,12 +64,6 @@ public class BeanMapUtils {
 			BeanUtils.copyProperties(po, d, POST_IGNORE_LIST);
 		}
 		return d;
-	}
-
-	public static FeedsVO copy(Feeds po) {
-		FeedsVO ret = new FeedsVO();
-		BeanUtils.copyProperties(po, ret);
-		return ret;
 	}
 
 	public static NotifyVO copy(Notify po) {

@@ -30,40 +30,20 @@ public class UserController extends BaseController {
 	@Autowired
 	private PostService postService;
 	@Autowired
-	private FeedsService feedsService;
-	@Autowired
 	private CommentService commentService;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private FollowService followService;
 	@Autowired
 	private FavorService favorService;
 	@Autowired
 	private NotifyService notifyService;
 
 	/**
-	 * 用户主页
-	 * @param model
-	 * @return
-	 */
-	@GetMapping("/user")
-	public String home(ModelMap model) {
-		Pageable pageable = wrapPageable();
-		Page<FeedsVO> page = feedsService.findUserFeeds(pageable, getProfile().getId());
-
-		model.put("page", page);
-		initUser(model);
-
-		return view(Views.USER_FEEDS);
-	}
-
-	/**
 	 * 我发布的文章
 	 * @param model
 	 * @return
 	 */
-	@GetMapping(value="/user", params = "method=posts")
+	@GetMapping(value="/user")
 	public String posts(ModelMap model) {
 		Pageable pageable = wrapPageable();
 		Page<PostVO> page = postService.pagingByAuthorId(pageable, getProfile().getId());
@@ -106,40 +86,6 @@ public class UserController extends BaseController {
 		initUser(model);
 
 		return view(Views.USER_FAVORS);
-	}
-
-	/**
-	 * 我的关注
-	 * @param model
-	 * @return
-	 */
-	@GetMapping(value="/user", params = "method=follows")
-	public String follows(ModelMap model) {
-		Pageable pageable = wrapPageable();
-		AccountProfile profile = getProfile();
-		Page<UserVO> page = followService.follows(pageable, profile.getId());
-
-		model.put("page", page);
-		initUser(model);
-
-		return view(Views.USER_FOLLOWS);
-	}
-
-	/**
-	 * 我的粉丝
-	 * @param model
-	 * @return
-	 */
-	@GetMapping(value="/user", params = "method=fans")
-	public String fans(ModelMap model) {
-		Pageable pageable = wrapPageable();
-		AccountProfile profile = getProfile();
-		Page<UserVO> page = followService.fans(pageable, profile.getId());
-
-		model.put("page", page);
-		initUser(model);
-
-		return view(Views.USER_FANS);
 	}
 
 	/**
