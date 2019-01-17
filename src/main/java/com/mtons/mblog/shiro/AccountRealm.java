@@ -1,4 +1,4 @@
-package com.mtons.mblog.shiro.realm;
+package com.mtons.mblog.shiro;
 
 import com.mtons.mblog.base.lang.Consts;
 import com.mtons.mblog.modules.data.AccountProfile;

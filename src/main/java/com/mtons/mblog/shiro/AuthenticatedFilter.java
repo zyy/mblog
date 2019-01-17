@@ -7,7 +7,7 @@
 |
 +---------------------------------------------------------------------------
 */
-package com.mtons.mblog.shiro.filter;
+package com.mtons.mblog.shiro;
 
 import java.io.IOException;
 import java.util.Formatter;

@@ -1,8 +1,8 @@
 package com.mtons.mblog.config;
 
-import com.mtons.mblog.shiro.filter.AuthenticatedFilter;
-import com.mtons.mblog.shiro.filter.RememberedFilter;
-import com.mtons.mblog.shiro.realm.AccountRealm;
+import com.mtons.mblog.shiro.AccountSubjectFactory;
+import com.mtons.mblog.shiro.AuthenticatedFilter;
+import com.mtons.mblog.shiro.AccountRealm;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -44,6 +44,7 @@ public class ShiroConfig {
         securityManager.setCacheManager(cacheShiroManager);
         securityManager.setRememberMeManager(rememberMeManager);
         securityManager.setSessionManager(sessionManager);
+        securityManager.setSubjectFactory(new AccountSubjectFactory());
         return securityManager;
     }
 
@@ -118,7 +119,6 @@ public class ShiroConfig {
 
         HashMap<String, Filter> myFilters = new HashMap<>();
         myFilters.put("authc", new AuthenticatedFilter());
-        myFilters.put("remembered", new RememberedFilter());
         shiroFilter.setFilters(myFilters);
 
         /**
@@ -138,7 +138,6 @@ public class ShiroConfig {
         hashMap.put("/user*", "authc");
         hashMap.put("/user/**", "authc");
         hashMap.put("/post/**", "authc");
-        hashMap.put("/**", "remembered");
 
         hashMap.put("/admin", "authc,perms[admin]");
         hashMap.put("/admin/**", "authc,perms[admin]");
