@@ -1888,9 +1888,13 @@ div.mce-toolbar-grp {
 .site-scroll-top {
     position: fixed;
     z-index: 999;
-    width: 46px;
-    height: 46px;
-    background: url(../images/icon_top.png) no-repeat;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 22px;
+    border: 1px solid #d2d2d2;
+    color: #76818c;
+    text-align: center;
     bottom: 45px;
     right: 20px;
     border-radius: 2px;
@@ -1901,7 +1905,8 @@ div.mce-toolbar-grp {
 }
 
 .site-scroll-top:hover {
-    background-position: 0 -46px;
+    background-color: #d2d2d2;
+    color: #fff;
 }
 
 /* Tablet (Portrait)

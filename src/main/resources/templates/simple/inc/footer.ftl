@@ -32,7 +32,9 @@
     </div>
 </footer>
 
-<a href="#" class="site-scroll-top"></a>
+<a href="#" class="site-scroll-top">
+    <i class="icon-arrow-up"></i>
+</a>
 
 <script type="text/javascript">
     seajs.use('main', function (main) {
