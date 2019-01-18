@@ -29,7 +29,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "username", unique = true, length = 64)
+	@Column(name = "username", unique = true, nullable = false, length = 64)
 	private String username; // 用户名
 
 	@Column(name = "password", length = 64)
@@ -42,7 +42,7 @@ public class User {
 
 	private int gender;   // 性别
 
-	@Column(name = "email", unique = true, length = 128)
+	@Column(name = "email", unique = true, length = 64)
 	private String email;  // 邮箱
 
 	private int posts; // 文章数
