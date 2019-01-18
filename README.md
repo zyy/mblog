@@ -1,5 +1,7 @@
 ### Mblog 开源Java多人博客系统
 
+![JDK](https://img.shields.io/badge/jdk-1.8-green.svg?style=flat-square)
+
 ### 技术选型：
 
 * JDK8
