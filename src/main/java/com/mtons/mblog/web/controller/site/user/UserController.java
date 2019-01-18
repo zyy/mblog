@@ -36,7 +36,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private FavorService favorService;
 	@Autowired
-	private NotifyService notifyService;
+	private MessageService messageService;
 
 	/**
 	 * 我发布的文章
@@ -93,18 +93,18 @@ public class UserController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping(value="/user", params = "method=notifies")
+	@GetMapping(value="/user", params = "method=messages")
 	public String notifies(ModelMap model) {
 		Pageable pageable = wrapPageable();
 		AccountProfile profile = getProfile();
-		Page<NotifyVO> page = notifyService.findByOwnId(pageable, profile.getId());
+		Page<MessageVO> page = messageService.findByOwnId(pageable, profile.getId());
 		// 标记已读
-		notifyService.readed4Me(profile.getId());
+		messageService.readed4Me(profile.getId());
 
 		model.put("page", page);
 		initUser(model);
 
-		return view(Views.USER_NOTIFIES);
+		return view(Views.USER_MESSAGES);
 	}
 
 	private void initUser(ModelMap model) {
@@ -120,7 +120,7 @@ public class UserController extends BaseController {
 		AccountProfile profile = (AccountProfile) session.getAttribute("profile");
 		if (profile != null && profile.getBadgesCount() != null) {
 			BadgesCount count = new BadgesCount();
-			count.setNotifies(notifyService.unread4Me(profile.getId()));
+			count.setMessages(messageService.unread4Me(profile.getId()));
 			profile.setBadgesCount(count);
 			session.setAttribute("profile", profile);
 		}

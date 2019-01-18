@@ -1,7 +1,7 @@
 package com.mtons.mblog.modules.service.impl;
 
-import com.mtons.mblog.modules.repository.PermissionDao;
-import com.mtons.mblog.modules.repository.RolePermissionDao;
+import com.mtons.mblog.modules.repository.PermissionRepository;
+import com.mtons.mblog.modules.repository.RolePermissionRepository;
 import com.mtons.mblog.modules.entity.Permission;
 import com.mtons.mblog.modules.entity.RolePermission;
 import com.mtons.mblog.modules.service.RolePermissionService;
@@ -20,20 +20,20 @@ import java.util.Set;
 @Service
 public class RolePermissionServiceImpl implements RolePermissionService {
     @Autowired
-    private PermissionDao permissionDao;
+    private PermissionRepository permissionRepository;
     @Autowired
-    private RolePermissionDao rolePermissionDao;
+    private RolePermissionRepository rolePermissionRepository;
 
     @Override
     @Transactional(readOnly = true)
     public List<Permission> findPermissions(long roleId) {
-        List<RolePermission> rps = rolePermissionDao.findAllByRoleId(roleId);
+        List<RolePermission> rps = rolePermissionRepository.findAllByRoleId(roleId);
 
         List<Permission> rets = null;
         if (rps != null && rps.size() > 0) {
             Set<Long> pids = new HashSet<>();
             rps.forEach(rp -> pids.add(rp.getPermissionId()));
-            rets = permissionDao.findAllByIdIsIn(pids);
+            rets = permissionRepository.findAllByIdIsIn(pids);
         }
         return rets;
     }
@@ -41,12 +41,12 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     @Override
     @Transactional
     public void deleteByRoleId(long roleId) {
-        rolePermissionDao.deleteByRoleId(roleId);
+        rolePermissionRepository.deleteByRoleId(roleId);
     }
 
     @Override
     @Transactional
     public void add(Set<RolePermission> rolePermissions) {
-        rolePermissionDao.save(rolePermissions);
+        rolePermissionRepository.save(rolePermissions);
     }
 }

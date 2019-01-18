@@ -3,13 +3,10 @@
  */
 package com.mtons.mblog.web.controller.site.user;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.mtons.mblog.base.lang.Consts;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.UserVO;
-import com.mtons.mblog.modules.service.VerifyService;
+import com.mtons.mblog.modules.service.SecurityCodeService;
 import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.base.utils.MailHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +30,7 @@ public class ProfileController extends BaseController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private VerifyService verifyService;
+	private SecurityCodeService securityCodeService;
 	@Autowired
 	private MailHelper mailHelper;
 
@@ -83,7 +80,7 @@ public class ProfileController extends BaseController {
 			Assert.hasLength(email, "请输入邮箱地址");
 			Assert.hasLength(code, "请输入验证码");
 
-			verifyService.verify(profile.getId(), Consts.VERIFY_BIND, code);
+			securityCodeService.verify(profile.getId(), Consts.VERIFY_BIND, code);
 			// 先执行修改，判断邮箱是否更改，或邮箱是否被人使用
 			AccountProfile p = userService.updateEmail(profile.getId(), email);
 			putProfile(p);

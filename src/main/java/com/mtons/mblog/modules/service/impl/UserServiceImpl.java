@@ -14,12 +14,12 @@ import com.mtons.mblog.base.lang.MtonsException;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.UserVO;
 import com.mtons.mblog.modules.entity.User;
-import com.mtons.mblog.modules.repository.RoleDao;
-import com.mtons.mblog.modules.repository.UserDao;
+import com.mtons.mblog.modules.repository.RoleRepository;
+import com.mtons.mblog.modules.repository.UserRepository;
 import com.mtons.mblog.modules.utils.BeanMapUtils;
 import com.mtons.mblog.base.utils.MD5;
 import com.mtons.mblog.modules.data.BadgesCount;
-import com.mtons.mblog.modules.service.NotifyService;
+import com.mtons.mblog.modules.service.MessageService;
 import com.mtons.mblog.modules.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -41,17 +41,17 @@ import java.util.*;
 @CacheConfig(cacheNames = "usersCaches")
 public class UserServiceImpl implements UserService {
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userRepository;
 	@Autowired
-	private NotifyService notifyService;
+	private MessageService messageService;
 
 	@Autowired
-	private RoleDao roleDao;
+	private RoleRepository roleRepository;
 
 	@Override
 	@Transactional
 	public AccountProfile login(String username, String password) {
-		User po = userDao.findByUsername(username);
+		User po = userRepository.findByUsername(username);
 		AccountProfile u = null;
 
 		Assert.notNull(po, "账户不存在");
@@ -61,11 +61,11 @@ public class UserServiceImpl implements UserService {
 		Assert.state(StringUtils.equals(po.getPassword(), password), "密码错误");
 
 		po.setLastLogin(Calendar.getInstance().getTime());
-		userDao.save(po);
+		userRepository.save(po);
 		u = BeanMapUtils.copyPassport(po);
 
 		BadgesCount badgesCount = new BadgesCount();
-		badgesCount.setNotifies(notifyService.unread4Me(u.getId()));
+		badgesCount.setMessages(messageService.unread4Me(u.getId()));
 
 		u.setBadgesCount(badgesCount);
 		return u;
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public AccountProfile getProfileByName(String username) {
-		User po = userDao.findByUsername(username);
+		User po = userRepository.findByUsername(username);
 		AccountProfile u = null;
 
 		Assert.notNull(po, "账户不存在");
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 		u = BeanMapUtils.copyPassport(po);
 
 		BadgesCount badgesCount = new BadgesCount();
-		badgesCount.setNotifies(notifyService.unread4Me(u.getId()));
+		badgesCount.setMessages(messageService.unread4Me(u.getId()));
 
 		u.setBadgesCount(badgesCount);
 
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 		Assert.hasLength(user.getUsername(), "用户名不能为空!");
 		Assert.hasLength(user.getPassword(), "密码不能为空!");
 
-		User check = userDao.findByUsername(user.getUsername());
+		User check = userRepository.findByUsername(user.getUsername());
 
 		Assert.isNull(check, "用户名已经存在!");
 
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 		po.setStatus(EntityStatus.ENABLED);
 		po.setCreated(now);
 
-		userDao.save(po);
+		userRepository.save(po);
 
 		return BeanMapUtils.copy(po, 0);
 	}
@@ -126,11 +126,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@CacheEvict(key = "#user.getId()")
 	public AccountProfile update(UserVO user) {
-		User po = userDao.findOne(user.getId());
+		User po = userRepository.findOne(user.getId());
 		if (null != po) {
 			po.setName(user.getName());
 			po.setSignature(user.getSignature());
-			userDao.save(po);
+			userRepository.save(po);
 		}
 		return BeanMapUtils.copyPassport(po);
 	}
@@ -139,20 +139,20 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@CacheEvict(key = "#id")
 	public AccountProfile updateEmail(long id, String email) {
-		User po = userDao.findOne(id);
+		User po = userRepository.findOne(id);
 
 		if (null != po) {
 			if (email.equals(po.getEmail())) {
 				throw new MtonsException("邮箱地址没做更改");
 			}
 
-			User check = userDao.findByEmail(email);
+			User check = userRepository.findByEmail(email);
 
 			if (check != null && check.getId() != po.getId()) {
 				throw new MtonsException("该邮箱地址已经被使用了");
 			}
 			po.setEmail(email);
-			userDao.save(po);
+			userRepository.save(po);
 		}
 
 		return BeanMapUtils.copyPassport(po);
@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Cacheable(key = "#userId")
 	public UserVO get(long userId) {
-		User po = userDao.findOne(userId);
+		User po = userRepository.findOne(userId);
 		UserVO ret = null;
 		if (po != null) {
 			ret = BeanMapUtils.copy(po, 0);
@@ -169,36 +169,24 @@ public class UserServiceImpl implements UserService {
 		return ret;
 	}
 
-	
-	@Override
-	public List<UserVO> findHotUserByLastIn(){
-		List<UserVO> rets = new ArrayList<>();
-		List<User> list = userDao.findTop12ByOrderByLastLoginDesc();
-		for (User po : list) {
-			UserVO u = BeanMapUtils.copy(po , 0);
-			rets.add(u);
-		}
-		return rets;
-	}
-	
 	@Override
 	public UserVO getByUsername(String username) {
-		return BeanMapUtils.copy(userDao.findByUsername(username), 0);
+		return BeanMapUtils.copy(userRepository.findByUsername(username), 0);
 	}
 
 	@Override
 	public UserVO getByEmail(String email) {
-		return BeanMapUtils.copy(userDao.findByEmail(email), 0);
+		return BeanMapUtils.copy(userRepository.findByEmail(email), 0);
 	}
 
 	@Override
 	@Transactional
 	@CacheEvict(key = "#id")
 	public AccountProfile updateAvatar(long id, String path) {
-		User po = userDao.findOne(id);
+		User po = userRepository.findOne(id);
 		if (po != null) {
 			po.setAvatar(path);
-			userDao.save(po);
+			userRepository.save(po);
 		}
 		return BeanMapUtils.copyPassport(po);
 	}
@@ -206,44 +194,44 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void updatePassword(long id, String newPassword) {
-		User po = userDao.findOne(id);
+		User po = userRepository.findOne(id);
 
 		Assert.hasLength(newPassword, "密码不能为空!");
 
 		if (null != po) {
 			po.setPassword(MD5.md5(newPassword));
-			userDao.save(po);
+			userRepository.save(po);
 		}
 	}
 
 	@Override
 	@Transactional
 	public void updatePassword(long id, String oldPassword, String newPassword) {
-		User po = userDao.findOne(id);
+		User po = userRepository.findOne(id);
 
 		Assert.hasLength(newPassword, "密码不能为空!");
 
 		if (po != null) {
 			Assert.isTrue(MD5.md5(oldPassword).equals(po.getPassword()), "当前密码不正确");
 			po.setPassword(MD5.md5(newPassword));
-			userDao.save(po);
+			userRepository.save(po);
 		}
 	}
 
 	@Override
 	@Transactional
 	public void updateStatus(long id, int status) {
-		User po = userDao.findOne(id);
+		User po = userRepository.findOne(id);
 
 		if (po != null) {
 			po.setStatus(status);
-			userDao.save(po);
+			userRepository.save(po);
 		}
 	}
 
 	@Override
 	public Page<UserVO> paging(Pageable pageable) {
-		Page<User> page = userDao.findAllByOrderByIdDesc(pageable);
+		Page<User> page = userRepository.findAllByOrderByIdDesc(pageable);
 		List<UserVO> rets = new ArrayList<>();
 
 		for (User po : page.getContent()) {
@@ -259,7 +247,7 @@ public class UserServiceImpl implements UserService {
 		if (ids == null || ids.isEmpty()) {
 			return Collections.emptyMap();
 		}
-		List<User> list = userDao.findAllByIdIn(ids);
+		List<User> list = userRepository.findAllByIdIn(ids);
 		Map<Long, UserVO> ret = new HashMap<>();
 
 		list.forEach(po -> {

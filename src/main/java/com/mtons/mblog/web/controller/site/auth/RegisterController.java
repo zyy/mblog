@@ -6,7 +6,7 @@ package com.mtons.mblog.web.controller.site.auth;
 import com.mtons.mblog.base.lang.Consts;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.UserVO;
-import com.mtons.mblog.modules.service.VerifyService;
+import com.mtons.mblog.modules.service.SecurityCodeService;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.base.utils.MailHelper;
@@ -18,8 +18,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -31,7 +29,7 @@ public class RegisterController extends BaseController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private VerifyService verifyService;
+	private SecurityCodeService securityCodeService;
 	@Autowired
 	private MailHelper mailHelper;
 	@Autowired

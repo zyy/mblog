@@ -43,22 +43,7 @@ public interface PostService {
 	Page<PostVO> pagingByAuthorId(Pageable pageable, long userId);
 
 	List<PostVO> findAllFeatured();
-	
-	/**
-	 * 根据关键字搜索
-	 * @param pageable
-	 * @param q
-	 * @throws Exception 
-	 */
-	Page<PostVO> search(Pageable pageable, String q) throws Exception;
-	
-	/**
-	 * 搜索 Tag
-	 * @param pageable
-	 * @param tag
-	 */
-	Page<PostVO> searchByTag(Pageable pageable, String tag);
-	
+
 	/**
 	 * 查询最近更新 - 按发布时间排序
 	 * @param maxResults
@@ -160,8 +145,4 @@ public interface PostService {
 	 * @param postId
 	 */
 	void unfavor(long userId, long postId);
-
-
-	void resetIndexs();
-
 }

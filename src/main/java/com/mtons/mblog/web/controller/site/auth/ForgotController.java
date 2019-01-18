@@ -5,20 +5,15 @@ import com.mtons.mblog.modules.data.UserVO;
 import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.base.utils.MailHelper;
 import com.mtons.mblog.modules.service.UserService;
-import com.mtons.mblog.modules.service.VerifyService;
+import com.mtons.mblog.modules.service.SecurityCodeService;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.web.controller.site.Views;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author langhsu on 2015/8/14.
@@ -28,7 +23,7 @@ public class ForgotController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
-    private VerifyService verifyService;
+    private SecurityCodeService securityCodeService;
     @Autowired
     private MailHelper mailHelper;
 
@@ -47,7 +42,7 @@ public class ForgotController extends BaseController {
             UserVO user = userService.getByEmail(email);
             Assert.notNull(user, "账户不存在");
 
-            verifyService.verify(user.getId(), Consts.VERIFY_FORGOT, code);
+            securityCodeService.verify(user.getId(), Consts.VERIFY_FORGOT, code);
             userService.updatePassword(user.getId(), password);
 
             data = Data.success("恭喜您! 密码重置成功。");

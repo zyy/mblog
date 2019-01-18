@@ -9,7 +9,7 @@
 */
 package com.mtons.mblog.web.controller.site.auth;
 
-import com.mtons.mblog.modules.service.NotifyService;
+import com.mtons.mblog.modules.service.MessageService;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.web.controller.site.Views;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController extends BaseController {
     @Autowired
-    private NotifyService notifyService;
+    private MessageService messageService;
 
     /**
      * 跳转登录页

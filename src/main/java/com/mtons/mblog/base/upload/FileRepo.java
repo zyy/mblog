@@ -44,6 +44,8 @@ public interface FileRepo {
 	 * @throws IOException
 	 */
 	String storeScale(MultipartFile file, String basePath, int width, int height) throws Exception;
+
+	String storeCut(MultipartFile file, String basePath, int width, int height) throws Exception;
 	
 	/**
 	 * 获取图片大小

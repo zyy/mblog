@@ -576,7 +576,7 @@ abbr[data-original-title], abbr[title] {
     position: relative;
     display: block;
     overflow: hidden;
-
+    max-height: 200px;
     border-top-right-radius: 2px;
     border-top-left-radius: 2px;
 }
@@ -1197,11 +1197,6 @@ abbr[data-original-title], abbr[title] {
     width: 100%;
     font-size: 13px;
 }
-
-/*热门用户样式 */
-.hotusers { overflow: hidden; float: left; padding: 2px; width: 100%;}
-.hotusers > li { float: left; display: inline-block; margin: 3px;}
-.hotusers .avatar-small {width: 50px; height: 50px;}
 
 /* User
 -------------------------------------------------- */

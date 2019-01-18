@@ -4,9 +4,9 @@ import com.mtons.mblog.modules.entity.Permission;
 import com.mtons.mblog.modules.entity.Role;
 import com.mtons.mblog.modules.entity.RolePermission;
 import com.mtons.mblog.modules.entity.UserRole;
-import com.mtons.mblog.modules.repository.PermissionDao;
-import com.mtons.mblog.modules.repository.RoleDao;
-import com.mtons.mblog.modules.repository.UserRoleDao;
+import com.mtons.mblog.modules.repository.PermissionRepository;
+import com.mtons.mblog.modules.repository.RoleRepository;
+import com.mtons.mblog.modules.repository.UserRoleRepository;
 import com.mtons.mblog.modules.service.RoleService;
 import com.mtons.mblog.modules.service.RolePermissionService;
 import org.apache.commons.lang3.StringUtils;
@@ -27,17 +27,17 @@ import java.util.*;
 @Transactional
 public class RoleServiceImpl implements RoleService {
     @Autowired
-    private RoleDao roleDao;
+    private RoleRepository roleRepository;
     @Autowired
-    private PermissionDao permissionDao;
+    private PermissionRepository permissionRepository;
     @Autowired
     private RolePermissionService rolePermissionService;
     @Autowired
-    private UserRoleDao userRoleDao;
+    private UserRoleRepository userRoleRepository;
 
     @Override
     public Page<Role> paging(Pageable pageable, String name) {
-        Page<Role> page = roleDao.findAll((root, query, builder) -> {
+        Page<Role> page = roleRepository.findAll((root, query, builder) -> {
             Predicate predicate = builder.conjunction();
 
             if (StringUtils.isNoneBlank(name)) {
@@ -53,13 +53,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> list() {
-        List<Role> list = roleDao.findAllByStatusOrderByIdDesc(Role.STATUS_NORMAL);
+        List<Role> list = roleRepository.findAllByStatusOrderByIdDesc(Role.STATUS_NORMAL);
         return list;
     }
 
     @Override
     public Map<Long, Role> findByIds(Set<Long> ids) {
-        List<Role> list = roleDao.findAllByIdIsIn(ids);
+        List<Role> list = roleRepository.findAllByIdIsIn(ids);
         Map<Long, Role> ret = new LinkedHashMap<>();
         list.forEach(po -> {
             Role vo = toVO(po);
@@ -70,13 +70,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role get(long id) {
-        Role po = roleDao.findOne(id);
+        Role po = roleRepository.findOne(id);
         return toVO(po);
     }
 
     @Override
     public void update(Role r, Set<Permission> permissions) {
-        Role po = roleDao.findOne(r.getId());
+        Role po = roleRepository.findOne(r.getId());
 
         if (null == po) {
             po = new Role();
@@ -85,7 +85,7 @@ public class RoleServiceImpl implements RoleService {
         po.setDescription(r.getDescription());
         po.setStatus(r.getStatus());
 
-        roleDao.save(po);
+        roleRepository.save(po);
 
         rolePermissionService.deleteByRoleId(po.getId());
 
@@ -105,16 +105,16 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public boolean delete(long id) {
-        List<UserRole> urs = userRoleDao.findAllByRoleId(id);
+        List<UserRole> urs = userRoleRepository.findAllByRoleId(id);
         Assert.state(urs == null || urs.size() == 0, "该角色已经被使用,不能被删除");
-        roleDao.delete(id);
+        roleRepository.delete(id);
         rolePermissionService.deleteByRoleId(id);
         return true;
     }
 
     @Override
     public void activate(long id, boolean active) {
-        Role po = roleDao.findOne(id);
+        Role po = roleRepository.findOne(id);
         if (po != null) {
             po.setStatus(active ? Role.STATUS_NORMAL : Role.STATUS_CLOSED);
         }

@@ -1,6 +1,7 @@
 package com.mtons.mblog.base.utils;
 
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -183,6 +184,12 @@ public class ImageUtils {
     public static boolean cutImage(File file, String dest, int x, int y, int width, int height) throws IOException, InterruptedException {
         validate(dest);
         Thumbnails.of(file).sourceRegion(x, y, width, height).size(width,height).keepAspectRatio(false).toFile(dest);
+        return true;
+    }
+
+    public static boolean cutImage(MultipartFile file, String dest, int width, int height) throws IOException, InterruptedException {
+        validate(dest);
+        Thumbnails.of(file.getInputStream()).sourceRegion(Positions.CENTER, width, height).size(width,height).keepAspectRatio(false).toFile(dest);
         return true;
     }
 

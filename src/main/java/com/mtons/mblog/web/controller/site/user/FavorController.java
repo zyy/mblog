@@ -1,16 +1,14 @@
 package com.mtons.mblog.web.controller.site.user;
 
 import com.mtons.mblog.base.lang.Consts;
-import com.mtons.mblog.core.event.NotifyEvent;
+import com.mtons.mblog.core.event.MessageEvent;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.modules.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,7 +74,7 @@ public class FavorController extends BaseController {
      * @param postId
      */
     private void sendNotify(long userId, long postId) {
-        NotifyEvent event = new NotifyEvent("NotifyEvent");
+        MessageEvent event = new MessageEvent("MessageEvent");
         event.setFromUserId(userId);
         event.setEvent(Consts.NOTIFY_EVENT_FAVOR_POST);
         // 此处不知道文章作者, 让通知事件系统补全

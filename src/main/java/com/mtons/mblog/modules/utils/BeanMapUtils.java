@@ -9,17 +9,10 @@
 */
 package com.mtons.mblog.modules.utils;
 
-import com.mtons.mblog.modules.entity.User;
-import com.mtons.mblog.modules.data.CommentVO;
-import com.mtons.mblog.modules.data.FavorVO;
-import com.mtons.mblog.modules.data.PostVO;
-import com.mtons.mblog.modules.entity.Comment;
-import com.mtons.mblog.modules.entity.Favor;
-import com.mtons.mblog.modules.entity.Post;
-import com.mtons.mblog.modules.data.AccountProfile;
-import com.mtons.mblog.modules.data.NotifyVO;
-import com.mtons.mblog.modules.data.UserVO;
-import com.mtons.mblog.modules.entity.Notify;
+import com.mtons.mblog.modules.data.*;
+import com.mtons.mblog.modules.entity.*;
+import com.mtons.mblog.modules.data.MessageVO;
+import com.mtons.mblog.modules.entity.Message;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -66,8 +59,8 @@ public class BeanMapUtils {
 		return d;
 	}
 
-	public static NotifyVO copy(Notify po) {
-		NotifyVO ret = new NotifyVO();
+	public static MessageVO copy(Message po) {
+		MessageVO ret = new MessageVO();
 		BeanUtils.copyProperties(po, ret);
 		return ret;
 	}

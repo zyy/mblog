@@ -10,7 +10,7 @@
 package com.mtons.mblog.modules.service.impl;
 
 import com.mtons.mblog.base.lang.Consts;
-import com.mtons.mblog.modules.repository.ChannelDao;
+import com.mtons.mblog.modules.repository.ChannelRepository;
 import com.mtons.mblog.modules.service.ChannelService;
 import com.mtons.mblog.modules.entity.Channel;
 import org.springframework.beans.BeanUtils;
@@ -31,22 +31,22 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class ChannelServiceImpl implements ChannelService {
 	@Autowired
-	private ChannelDao channelDao;
+	private ChannelRepository channelRepository;
 
 	@Override
 	public List<Channel> findAll(int status) {
 		List<Channel> list;
 		if (status > Consts.IGNORE) {
-			list = channelDao.findAllByStatus(status);
+			list = channelRepository.findAllByStatus(status);
 		} else {
-			list = channelDao.findAll();
+			list = channelRepository.findAll();
 		}
 		return list;
 	}
 
 	@Override
 	public Map<Integer, Channel> findMapByIds(Collection<Integer> ids) {
-		List<Channel> list = channelDao.findAllByIdIn(ids);
+		List<Channel> list = channelRepository.findAllByIdIn(ids);
 		Map<Integer, Channel> rets = new HashMap<>();
 		list.forEach(po -> rets.put(po.getId(), po));
 		return rets;
@@ -54,26 +54,26 @@ public class ChannelServiceImpl implements ChannelService {
 
 	@Override
 	public Channel getById(int id) {
-		return channelDao.findOne(id);
+		return channelRepository.findOne(id);
 	}
 
 	@Override
 	@Transactional
 	public void update(Channel channel) {
-		Channel po = channelDao.findOne(channel.getId());
+		Channel po = channelRepository.findOne(channel.getId());
 		if (po != null) {
 			BeanUtils.copyProperties(channel, po);
 		} else {
 			po = new Channel();
 			BeanUtils.copyProperties(channel, po);
 		}
-		channelDao.save(po);
+		channelRepository.save(po);
 	}
 
 	@Override
 	@Transactional
 	public void delete(int id) {
-		channelDao.delete(id);
+		channelRepository.delete(id);
 	}
 
 }

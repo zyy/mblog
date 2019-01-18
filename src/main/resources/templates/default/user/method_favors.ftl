@@ -3,7 +3,7 @@
 <@layout "我的喜欢">
 <div class="row users-show">
     <div class="col-xs-12 col-md-3 side-left">
-		<#include "/default/user/left.ftl"/>
+		<#include "/default/inc/user_sidebar.ftl"/>
     </div>
     <div class="col-xs-12 col-md-9 side-right">
         <div class="panel panel-default">

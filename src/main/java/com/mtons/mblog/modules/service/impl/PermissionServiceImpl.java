@@ -2,7 +2,7 @@ package com.mtons.mblog.modules.service.impl;
 
 import com.mtons.mblog.modules.data.PermissionTree;
 import com.mtons.mblog.modules.entity.Permission;
-import com.mtons.mblog.modules.repository.PermissionDao;
+import com.mtons.mblog.modules.repository.PermissionRepository;
 import com.mtons.mblog.modules.service.PermissionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +23,7 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class PermissionServiceImpl implements PermissionService {
     @Autowired
-    private PermissionDao permissionDao;
+    private PermissionRepository permissionRepository;
 
     private Sort sort = new Sort(
             new Sort.Order(Sort.Direction.DESC, "weight"),
@@ -32,7 +32,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Page<Permission> paging(Pageable pageable, String name) {
-        Page<Permission> page = permissionDao.findAll((root, query, builder) -> {
+        Page<Permission> page = permissionRepository.findAll((root, query, builder) -> {
             Predicate predicate = builder.conjunction();
 
             if (StringUtils.isNoneBlank(name)) {
@@ -48,7 +48,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<PermissionTree> tree() {
-        List<Permission> data = permissionDao.findAll(sort);
+        List<Permission> data = permissionRepository.findAll(sort);
         List<PermissionTree> results = new LinkedList<>();
         Map<Long, PermissionTree> map = new LinkedHashMap<>();
 
@@ -74,7 +74,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<PermissionTree> tree(int parentId) {
-        List<Permission> list = permissionDao.findAllByParentId(parentId, sort);
+        List<Permission> list = permissionRepository.findAllByParentId(parentId, sort);
         List<PermissionTree> results = new ArrayList<>();
 
         list.forEach(po -> {
@@ -87,12 +87,12 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<Permission> list() {
-        return permissionDao.findAll(new Sort(Sort.Direction.DESC, "id"));
+        return permissionRepository.findAll(new Sort(Sort.Direction.DESC, "id"));
     }
 
     @Override
     public Permission get(long id) {
-        return permissionDao.findOne(id);
+        return permissionRepository.findOne(id);
     }
 
 }

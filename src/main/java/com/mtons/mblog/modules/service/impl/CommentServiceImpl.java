@@ -13,16 +13,14 @@ import com.mtons.mblog.modules.data.CommentVO;
 import com.mtons.mblog.modules.data.PostVO;
 import com.mtons.mblog.modules.data.UserVO;
 import com.mtons.mblog.modules.entity.Comment;
-import com.mtons.mblog.modules.repository.CommentDao;
+import com.mtons.mblog.modules.repository.CommentRepository;
 import com.mtons.mblog.modules.service.CommentService;
 import com.mtons.mblog.modules.service.UserEventService;
 import com.mtons.mblog.modules.service.UserService;
 import com.mtons.mblog.modules.utils.BeanMapUtils;
 import com.mtons.mblog.modules.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -37,7 +35,7 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class CommentServiceImpl implements CommentService {
 	@Autowired
-	private CommentDao commentDao;
+	private CommentRepository commentRepository;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -47,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public Page<CommentVO> paging4Admin(Pageable pageable) {
-		Page<Comment> page = commentDao.findAll(pageable);
+		Page<Comment> page = commentRepository.findAll(pageable);
 		List<CommentVO> rets = new ArrayList<>();
 
 		HashSet<Long> uids= new HashSet<>();
@@ -64,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Page<CommentVO> paging4Home(Pageable pageable, long authorId) {
-		Page<Comment> page = commentDao.findAllByAuthorIdOrderByCreatedDesc(pageable, authorId);
+		Page<Comment> page = commentRepository.findAllByAuthorIdOrderByCreatedDesc(pageable, authorId);
 
 		List<CommentVO> rets = new ArrayList<>();
 		Set<Long> parentIds = new HashSet<>();
@@ -94,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Page<CommentVO> paging(Pageable pageable, long toId) {
-		Page<Comment> page = commentDao.findAllByToIdOrderByCreatedDesc(pageable, toId);
+		Page<Comment> page = commentRepository.findAllByToIdOrderByCreatedDesc(pageable, toId);
 		
 		List<CommentVO> rets = new ArrayList<>();
 		Set<Long> parentIds = new HashSet<>();
@@ -121,7 +119,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Map<Long, CommentVO> findByIds(Set<Long> ids) {
-		List<Comment> list = commentDao.findByIdIn(ids);
+		List<Comment> list = commentRepository.findByIdIn(ids);
 		Map<Long, CommentVO> ret = new HashMap<>();
 		Set<Long> uids = new HashSet<>();
 
@@ -144,7 +142,7 @@ public class CommentServiceImpl implements CommentService {
 		po.setContent(comment.getContent());
 		po.setCreated(new Date());
 		po.setPid(comment.getPid());
-		commentDao.save(po);
+		commentRepository.save(po);
 
 		userEventService.identityComment(comment.getAuthorId(), po.getId(), true);
 		return po.getId();
@@ -153,24 +151,41 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	@Transactional
 	public void delete(List<Long> ids) {
-		commentDao.deleteAllByIdIn(ids);
+		commentRepository.deleteAllByIdIn(ids);
 	}
 
 	@Override
 	@Transactional
 	public void delete(long id, long authorId) {
-		Comment po = commentDao.findOne(id);
+		Comment po = commentRepository.findOne(id);
 		if (po != null) {
 			// 判断文章是否属于当前登录用户
 			Assert.isTrue(po.getAuthorId() == authorId, "认证失败");
-			commentDao.delete(po);
+			commentRepository.delete(po);
 		}
 	}
 
 	@Override
 	@Transactional
 	public List<Comment> findAllByAuthorIdAndToId(long authorId, long toId) {
-		return commentDao.findAllByAuthorIdAndToIdOrderByCreatedDesc(authorId, toId);
+		return commentRepository.findAllByAuthorIdAndToIdOrderByCreatedDesc(authorId, toId);
+	}
+
+	@Override
+	public List<CommentVO> latests(int maxResults) {
+		Pageable pageable = new PageRequest(0, maxResults, new Sort(Sort.Direction.DESC, "id"));
+		Page<Comment> page = commentRepository.findAll(pageable);
+		List<CommentVO> rets = new ArrayList<>();
+
+		HashSet<Long> uids= new HashSet<>();
+
+		page.getContent().forEach(po -> {
+			uids.add(po.getAuthorId());
+			rets.add(BeanMapUtils.copy(po));
+		});
+
+		buildUsers(rets, uids);
+		return rets;
 	}
 
 	private void buildUsers(Collection<CommentVO> posts, Set<Long> uids) {

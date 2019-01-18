@@ -110,6 +110,18 @@ public abstract class AbstractFileRepo implements FileRepo {
     }
 
     @Override
+    public String storeCut(MultipartFile file, String basePath, int width, int height) throws Exception {
+        validateFile(file);
+
+        String path = basePath + FileNameUtils.genPathAndFileName(getExt(file.getOriginalFilename()));
+
+        // 根据临时文件生成略缩图
+        String dest = getRoot() + path;
+        ImageUtils.cutImage(file, dest, width, height);
+        return path;
+    }
+
+    @Override
     public int[] imageSize(String storePath) {
         String root = getRoot();
 

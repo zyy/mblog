@@ -10,7 +10,7 @@
 package com.mtons.mblog.modules.service.impl;
 
 import com.mtons.mblog.modules.entity.Config;
-import com.mtons.mblog.modules.repository.ConfigDao;
+import com.mtons.mblog.modules.repository.ConfigRepository;
 import com.mtons.mblog.modules.service.ConfigService;
 import org.hibernate.Session;
 import org.springframework.beans.BeanUtils;
@@ -33,7 +33,7 @@ import java.util.Map;
 @Service
 public class ConfigServiceImpl implements ConfigService {
 	@Autowired
-	private ConfigDao configDao;
+	private ConfigRepository configRepository;
 	@Autowired
 //    @PersistenceContext
 	private EntityManager entityManager;
@@ -41,7 +41,7 @@ public class ConfigServiceImpl implements ConfigService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Config> findAll() {
-		List<Config> list = configDao.findAll();
+		List<Config> list = configRepository.findAll();
 		List<Config> rets = new ArrayList<>();
 		
 		for (Config po : list) {
@@ -60,7 +60,7 @@ public class ConfigServiceImpl implements ConfigService {
 		}
 		
 		for (Config st :  settings) {
-			Config entity = configDao.findByKey(st.getKey());
+			Config entity = configRepository.findByKey(st.getKey());
 
 			// 修改
 			if (entity != null) {
@@ -71,7 +71,7 @@ public class ConfigServiceImpl implements ConfigService {
 				entity = new Config();
 				BeanUtils.copyProperties(st, entity);
 			}
-			configDao.save(entity);
+			configRepository.save(entity);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class ConfigServiceImpl implements ConfigService {
 	}
 
 	public String findConfigValueByName(String key) {
-		Config entity = configDao.findByKey(key);
+		Config entity = configRepository.findByKey(key);
 		if (entity != null) {
 			return entity.getValue();
 		}

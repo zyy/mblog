@@ -53,4 +53,6 @@ public interface CommentService {
 	void delete(long id, long authorId);
 
 	List<Comment> findAllByAuthorIdAndToId(long authorId, long toId);
+
+	List<CommentVO> latests(int maxResults);
 }

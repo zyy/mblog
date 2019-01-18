@@ -10,6 +10,7 @@
 package com.mtons.mblog.web.controller.site;
 
 import com.mtons.mblog.modules.data.PostVO;
+import com.mtons.mblog.modules.service.PostSearchService;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.modules.service.PostService;
 import org.apache.commons.lang3.StringUtils;
@@ -28,14 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SearchController extends BaseController {
 	@Autowired
-	private PostService postService;
+	private PostSearchService postSearchService;
 
 	@RequestMapping("/search")
 	public String search(String kw, ModelMap model) {
 		Pageable pageable = wrapPageable();
 		try {
 			if (StringUtils.isNotEmpty(kw)) {
-				Page<PostVO> page = postService.search(pageable, kw);
+				Page<PostVO> page = postSearchService.search(pageable, kw);
 				model.put("page", page);
 			}
 		} catch (Exception e) {

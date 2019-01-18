@@ -5,7 +5,7 @@ import com.mtons.mblog.base.lang.Consts;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.modules.data.UserVO;
 import com.mtons.mblog.modules.service.UserService;
-import com.mtons.mblog.modules.service.VerifyService;
+import com.mtons.mblog.modules.service.SecurityCodeService;
 import com.mtons.mblog.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class EmailController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
-    private VerifyService verifyService;
+    private SecurityCodeService securityCodeService;
 
     @GetMapping("/send_code")
     @ResponseBody
@@ -46,7 +46,7 @@ public class EmailController extends BaseController {
             userId = profile.getId();
         }
 
-        String code = verifyService.generateCode(userId, type, email);
+        String code = securityCodeService.generateCode(userId, type, email);
         Map<String, Object> context = new HashMap<>();
         context.put("code", code);
 

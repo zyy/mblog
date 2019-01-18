@@ -12,6 +12,7 @@ package com.mtons.mblog.web.controller.admin;
 import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.modules.entity.Config;
 import com.mtons.mblog.modules.service.ConfigService;
+import com.mtons.mblog.modules.service.PostSearchService;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.config.ContextStartup;
 import com.mtons.mblog.modules.service.PostService;
@@ -39,7 +40,7 @@ public class ConfigController extends BaseController {
 	@Autowired
 	private ConfigService configService;
 	@Autowired
-	private PostService postService;
+	private PostSearchService postSearchService;
 	@Autowired
 	private ContextStartup contextStartup;
 
@@ -86,7 +87,7 @@ public class ConfigController extends BaseController {
 
 	@RequestMapping("/flush_indexs")
 	public @ResponseBody Data flushIndexs() {
-		postService.resetIndexs();
+		postSearchService.resetIndexs();
 		return Data.success("操作成功", Data.NOOP);
 	}
 	

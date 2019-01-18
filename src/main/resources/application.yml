@@ -7,9 +7,12 @@ spring:
         enabled: true
     http:
         encoding:
-          charset: UTF-8
-          force: true
-          enabled: true
+            charset: UTF-8
+            force: true
+            enabled: true
+            servlet:
+        multipart:
+            max-file-size: 5MB
     freemarker:
         template-loader-path:
         - classpath:/templates
@@ -22,10 +25,6 @@ spring:
             template_update_delay: 0
             datetime_format: yyyy-MM-dd HH:mm
             number_format: 0.##
-    servlet:
-        multipart:
-            max-file-size: 5MB
-
     mail:
         host: smtp.mtons.com
         username: example@mtons.com
@@ -34,9 +33,9 @@ spring:
         properties:
             mail.smtp.auth: true
 
-# site.theme: [default|card]
+# site.theme: [default|simple]
 site:
-    theme: default
+    theme: simple
     store:
-      root: d:/data/mblog/
-      size: 2
+        root: d:/data/mblog/
+        size: 2

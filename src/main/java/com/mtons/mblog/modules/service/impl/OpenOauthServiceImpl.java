@@ -13,11 +13,11 @@ import com.mtons.mblog.modules.data.OpenOauthVO;
 import com.mtons.mblog.modules.data.UserVO;
 import com.mtons.mblog.modules.entity.OpenOauth;
 import com.mtons.mblog.modules.entity.User;
-import com.mtons.mblog.modules.repository.UserDao;
+import com.mtons.mblog.modules.repository.UserRepository;
 import com.mtons.mblog.modules.service.OpenOauthService;
 import com.mtons.mblog.modules.utils.BeanMapUtils;
 import com.mtons.mblog.base.utils.MD5;
-import com.mtons.mblog.modules.repository.OpenOauthDao;
+import com.mtons.mblog.modules.repository.OpenOauthRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,22 +30,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OpenOauthServiceImpl implements OpenOauthService {
     @Autowired
-    private OpenOauthDao openOauthDao;
+    private OpenOauthRepository openOauthRepository;
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Override
     @Transactional
     public UserVO getUserByOauthToken(String oauth_token) {
-        OpenOauth thirdToken = openOauthDao.findByAccessToken(oauth_token);
-        User userPO = userDao.findOne(thirdToken.getId());
+        OpenOauth thirdToken = openOauthRepository.findByAccessToken(oauth_token);
+        User userPO = userRepository.findOne(thirdToken.getId());
         return BeanMapUtils.copy(userPO, 0);
     }
 
     @Override
     @Transactional
     public OpenOauthVO getOauthByToken(String oauth_token) {
-        OpenOauth po = openOauthDao.findByAccessToken(oauth_token);
+        OpenOauth po = openOauthRepository.findByAccessToken(oauth_token);
         OpenOauthVO vo = null;
         if (po != null) {
             vo = new OpenOauthVO();
@@ -57,7 +57,7 @@ public class OpenOauthServiceImpl implements OpenOauthService {
     @Override
     @Transactional
     public OpenOauthVO getOauthByUid(long userId) {
-        OpenOauth po = openOauthDao.findByUserId(userId);
+        OpenOauth po = openOauthRepository.findByUserId(userId);
         OpenOauthVO vo = null;
         if (po != null) {
             vo = new OpenOauthVO();
@@ -69,9 +69,9 @@ public class OpenOauthServiceImpl implements OpenOauthService {
     @Override
     @Transactional
     public boolean checkIsOriginalPassword(long userId) {
-        OpenOauth po = openOauthDao.findByUserId(userId);
+        OpenOauth po = openOauthRepository.findByUserId(userId);
         if (po != null) {
-            User upo = userDao.findOne(userId);
+            User upo = userRepository.findOne(userId);
 
             String pwd = MD5.md5(po.getAccessToken());
             // 判断用户密码 和 登录状态
@@ -87,13 +87,13 @@ public class OpenOauthServiceImpl implements OpenOauthService {
     public void saveOauthToken(OpenOauthVO oauth) {
         OpenOauth po = new OpenOauth();
         BeanUtils.copyProperties(oauth, po);
-        openOauthDao.save(po);
+        openOauthRepository.save(po);
     }
 
 	@Override
 	@Transactional
 	public OpenOauthVO getOauthByOauthUserId(String oauthUserId) {
-		OpenOauth po = openOauthDao.findByOauthUserId(oauthUserId);
+		OpenOauth po = openOauthRepository.findByOauthUserId(oauthUserId);
         OpenOauthVO vo = null;
         if (po != null) {
             vo = new OpenOauthVO();

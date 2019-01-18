@@ -5,7 +5,7 @@ package com.mtons.mblog.web.controller.site.comment;
 
 import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.base.lang.Consts;
-import com.mtons.mblog.core.event.NotifyEvent;
+import com.mtons.mblog.core.event.MessageEvent;
 import com.mtons.mblog.modules.data.AccountProfile;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.modules.data.CommentVO;
@@ -98,7 +98,7 @@ public class CommentController extends BaseController {
 	 * @param postId
 	 */
 	private void sendNotify(long userId, long postId, long pid) {
-		NotifyEvent event = new NotifyEvent("NotifyEvent");
+		MessageEvent event = new MessageEvent("MessageEvent");
 		event.setFromUserId(userId);
 
 		if (pid > 0) {

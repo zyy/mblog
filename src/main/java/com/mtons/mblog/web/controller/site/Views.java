@@ -29,7 +29,7 @@ public interface Views {
 	String USER_POSTS = "/user/method_posts";
 	String USER_COMMENTS = "/user/method_comments";
 	String USER_FAVORS = "/user/method_favors";
-	String USER_NOTIFIES = "/user/method_notifies";
+	String USER_MESSAGES = "/user/method_messages";
 
 	String REDIRECT_USER = "redirect:/user";
 	String REDIRECT_USER_POSTS = "redirect:/user?method=posts";

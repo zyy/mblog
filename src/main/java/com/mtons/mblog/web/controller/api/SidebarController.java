@@ -11,8 +11,10 @@ package com.mtons.mblog.web.controller.api;
 
 import com.mtons.mblog.base.data.Data;
 import com.mtons.mblog.modules.data.AccountProfile;
+import com.mtons.mblog.modules.data.CommentVO;
 import com.mtons.mblog.modules.data.PostVO;
 import com.mtons.mblog.modules.data.UserVO;
+import com.mtons.mblog.modules.service.CommentService;
 import com.mtons.mblog.modules.service.UserService;
 import com.mtons.mblog.web.controller.BaseController;
 import com.mtons.mblog.modules.service.PostService;
@@ -41,9 +43,8 @@ import java.util.List;
 public class SidebarController extends BaseController {
 	@Autowired
 	private PostService postService;
-
 	@Autowired
-	private UserService userService;
+	private CommentService commentService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody
@@ -99,13 +100,11 @@ public class SidebarController extends BaseController {
 	}
 	
 	/**
-	 * 热门用户
-	 * @param pn
+	 * 热门评论
 	 * @return
 	 */
-	@RequestMapping(value="/hotusers")
-	public @ResponseBody List<UserVO> hotusers(Integer pn) {
-		List<UserVO> rets = userService.findHotUserByLastIn();
-         return rets;
+	@RequestMapping(value="/latest_comments")
+	public @ResponseBody List<CommentVO> latestComments() {
+         return commentService.latests(6);
 	}
 }

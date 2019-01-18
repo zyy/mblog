@@ -1,6 +1,6 @@
 package com.mtons.mblog.modules.service.impl;
 
-import com.mtons.mblog.modules.repository.UserRoleDao;
+import com.mtons.mblog.modules.repository.UserRoleRepository;
 import com.mtons.mblog.modules.entity.Role;
 import com.mtons.mblog.modules.entity.UserRole;
 import com.mtons.mblog.modules.service.RoleService;
@@ -18,13 +18,13 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class UserRoleServiceImpl implements UserRoleService {
     @Autowired
-    private UserRoleDao userRoleDao;
+    private UserRoleRepository userRoleRepository;
     @Autowired
     private RoleService roleService;
 
     @Override
     public List<Long> listRoleIds(long userId) {
-        List<UserRole> list = userRoleDao.findAllByUserId(userId);
+        List<UserRole> list = userRoleRepository.findAllByUserId(userId);
         List<Long> roleIds = new ArrayList<>();
         if (null != list) {
             list.forEach(po -> roleIds.add(po.getRoleId()));
@@ -40,7 +40,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public Map<Long, List<Role>> findMapByUserIds(List<Long> userIds) {
-        List<UserRole> list = userRoleDao.findAllByUserIdIn(userIds);
+        List<UserRole> list = userRoleRepository.findAllByUserIdIn(userIds);
         Map<Long, Set<Long>> map = new HashMap<>();
 
         list.forEach(po -> {
@@ -60,16 +60,16 @@ public class UserRoleServiceImpl implements UserRoleService {
     public void updateRole(long userId, Set<Long> roleIds) {
         // 判断是否清空已授权角色
         if (null == roleIds || roleIds.isEmpty()) {
-            userRoleDao.deleteByUserId(userId);
+            userRoleRepository.deleteByUserId(userId);
         } else {
-            List<UserRole> list = userRoleDao.findAllByUserId(userId);
+            List<UserRole> list = userRoleRepository.findAllByUserId(userId);
             List<Long> exitIds = new ArrayList<>();
 
             // 如果已有角色不在 新角色列表中, 执行删除操作
             if (null != list) {
                 list.forEach(po -> {
                     if (!roleIds.contains(po.getRoleId())) {
-                        userRoleDao.delete(po);
+                        userRoleRepository.delete(po);
                     } else {
                         exitIds.add(po.getRoleId());
                     }
@@ -82,7 +82,7 @@ public class UserRoleServiceImpl implements UserRoleService {
                 po.setUserId(userId);
                 po.setRoleId(roleId);
 
-                userRoleDao.save(po);
+                userRoleRepository.save(po);
             });
         }
 

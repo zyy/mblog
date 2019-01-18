@@ -2,7 +2,7 @@ package com.mtons.mblog.modules.service.impl;
 
 import com.mtons.mblog.modules.data.FavorVO;
 import com.mtons.mblog.modules.data.PostVO;
-import com.mtons.mblog.modules.repository.FavorDao;
+import com.mtons.mblog.modules.repository.FavorRepository;
 import com.mtons.mblog.modules.utils.BeanMapUtils;
 import com.mtons.mblog.modules.entity.Favor;
 import com.mtons.mblog.modules.service.FavorService;
@@ -23,14 +23,14 @@ import java.util.*;
 @Service
 public class FavorServiceImpl implements FavorService {
     @Autowired
-    private FavorDao favorDao;
+    private FavorRepository favorRepository;
     @Autowired
     private PostService postService;
 
     @Override
     @Transactional
     public void add(long userId, long postId) {
-        Favor po = favorDao.findByOwnIdAndPostId(userId, postId);
+        Favor po = favorRepository.findByOwnIdAndPostId(userId, postId);
 
         Assert.isNull(po, "您已经收藏过此文章");
 
@@ -40,21 +40,21 @@ public class FavorServiceImpl implements FavorService {
         po.setPostId(postId);
         po.setCreated(new Date());
 
-        favorDao.save(po);
+        favorRepository.save(po);
     }
 
     @Override
     @Transactional
     public void delete(long userId, long postId) {
-        Favor po = favorDao.findByOwnIdAndPostId(userId, postId);
+        Favor po = favorRepository.findByOwnIdAndPostId(userId, postId);
         Assert.notNull(po, "还没有喜欢过此文章");
-        favorDao.delete(po);
+        favorRepository.delete(po);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<FavorVO> pagingByOwnId(Pageable pageable, long ownId) {
-        Page<Favor> page = favorDao.findAllByOwnIdOrderByCreatedDesc(pageable, ownId);
+        Page<Favor> page = favorRepository.findAllByOwnIdOrderByCreatedDesc(pageable, ownId);
 
         List<FavorVO> rets = new ArrayList<>();
         Set<Long> postIds = new HashSet<>();
