@@ -74,7 +74,9 @@
                 </#if>
             </ul>
         </div>
-        <@pager request.requestURI, page, 5/>
+        <div class="text-center">
+            <@pager request.requestURI, page, 5/>
+        </div>
     </div>
     <div class="col-xs-12 col-md-3 side-right">
 		<#include "/default/inc/right.ftl" />

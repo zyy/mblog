@@ -70,7 +70,9 @@
                 </div>
 
                 <!-- Pager -->
-                <@pager request.requestURI!"", results, 5/>
+                <div class="text-center">
+                    <@pager request.requestURI!"", results, 5/>
+                </div>
             </@contents>
 
         </div>
