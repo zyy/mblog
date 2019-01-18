@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface MessageRepository extends JpaRepository<Message, Long>, JpaSpecificationExecutor<Message> {
     Page<Message> findAllByOwnIdOrderByIdDesc(Pageable pageable, long ownId);
+
     /**
      * 查询我的未读消息
+     *
      * @param ownId
      * @return
      */

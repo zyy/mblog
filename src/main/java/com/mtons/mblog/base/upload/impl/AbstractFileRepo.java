@@ -9,8 +9,8 @@
 */
 package com.mtons.mblog.base.upload.impl;
 
-import com.mtons.mblog.base.lang.MtonsException;
 import com.mtons.mblog.base.context.AppContext;
+import com.mtons.mblog.base.lang.MtonsException;
 import com.mtons.mblog.base.upload.FileRepo;
 import com.mtons.mblog.base.utils.FileNameUtils;
 import com.mtons.mblog.base.utils.ImageUtils;
@@ -106,18 +106,6 @@ public abstract class AbstractFileRepo implements FileRepo {
         // 根据临时文件生成略缩图
         String dest = getRoot() + path;
         ImageUtils.scale(file, dest, width, height);
-        return path;
-    }
-
-    @Override
-    public String storeCut(MultipartFile file, String basePath, int width, int height) throws Exception {
-        validateFile(file);
-
-        String path = basePath + FileNameUtils.genPathAndFileName(getExt(file.getOriginalFilename()));
-
-        // 根据临时文件生成略缩图
-        String dest = getRoot() + path;
-        ImageUtils.cutImage(file, dest, width, height);
         return path;
     }
 

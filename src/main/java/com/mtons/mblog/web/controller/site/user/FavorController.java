@@ -76,7 +76,7 @@ public class FavorController extends BaseController {
     private void sendNotify(long userId, long postId) {
         MessageEvent event = new MessageEvent("MessageEvent");
         event.setFromUserId(userId);
-        event.setEvent(Consts.NOTIFY_EVENT_FAVOR_POST);
+        event.setEvent(Consts.MESSAGE_EVENT_FAVOR_POST);
         // 此处不知道文章作者, 让通知事件系统补全
         event.setPostId(postId);
         applicationContext.publishEvent(event);

@@ -21,7 +21,6 @@ import java.util.Set;
 
 /**
  * @author langhsu
- *
  */
 public interface CommentRepository extends JpaRepository<Comment, Long>, JpaSpecificationExecutor<Comment> {
 	Page<Comment> findAll(Pageable pageable);
@@ -29,6 +28,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, JpaSpec
 	Page<Comment> findAllByAuthorIdOrderByCreatedDesc(Pageable pageable, long authorId);
 	List<Comment> findByIdIn(Set<Long> ids);
 	List<Comment> findAllByAuthorIdAndToIdOrderByCreatedDesc(long authorId, long toId);
-
 	int deleteAllByIdIn(Collection<Long> ids);
 }

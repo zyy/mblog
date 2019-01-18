@@ -30,12 +30,12 @@ public class MessageEventHandler implements ApplicationListener<MessageEvent> {
         nt.setEvent(event.getEvent());
 
         switch (event.getEvent()) {
-            case Consts.NOTIFY_EVENT_FAVOR_POST:
+            case Consts.MESSAGE_EVENT_FAVOR_POST:
                 PostVO p = postService.get(event.getPostId());
                 nt.setOwnId(p.getAuthorId());
                 break;
-            case Consts.NOTIFY_EVENT_COMMENT:
-            case Consts.NOTIFY_EVENT_COMMENT_REPLY:
+            case Consts.MESSAGE_EVENT_COMMENT:
+            case Consts.MESSAGE_EVENT_COMMENT_REPLY:
                 PostVO p2 = postService.get(event.getPostId());
                 nt.setOwnId(p2.getAuthorId());
 

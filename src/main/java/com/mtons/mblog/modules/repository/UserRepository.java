@@ -29,7 +29,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     User findByUsername(String username);
 
     User findByEmail(String email);
-    
+
     Page<User> findAllByOrderByIdDesc(Pageable pageable);
 
     List<User> findAllByIdIn(Set<Long> ids);
@@ -43,4 +43,5 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Transactional
     @Query("update User set comments = comments + :increment where id = :id")
     int updateComments(@Param("id") long id, @Param("increment") int increment);
+
 }

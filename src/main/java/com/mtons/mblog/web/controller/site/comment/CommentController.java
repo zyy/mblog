@@ -102,9 +102,9 @@ public class CommentController extends BaseController {
 		event.setFromUserId(userId);
 
 		if (pid > 0) {
-			event.setEvent(Consts.NOTIFY_EVENT_COMMENT_REPLY);
+			event.setEvent(Consts.MESSAGE_EVENT_COMMENT_REPLY);
 		} else {
-			event.setEvent(Consts.NOTIFY_EVENT_COMMENT);
+			event.setEvent(Consts.MESSAGE_EVENT_COMMENT);
 		}
 		// 此处不知道文章作者, 让通知事件系统补全
 		event.setPostId(postId);

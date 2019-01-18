@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * @author langhsu
- *
  */
 public interface ConfigRepository extends JpaRepository<Config, Long>, JpaSpecificationExecutor<Config> {
 	Config findByKey(String key);

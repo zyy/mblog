@@ -27,11 +27,10 @@
 </div>
 <!-- top/end -->
 
-<!-- latest contents -->
 <div class="row">
     <div class="col-xs-12 col-md-9 side-left">
         <div class="posts">
-            <@contents size=12>
+            <@contents pn=pn size=12>
             <ul class="ajax-load-box posts-con">
                 <#list results.content as row>
                 <li class="ajax-load-con content">
@@ -90,11 +89,14 @@
             </ul>
             </@contents>
         </div>
+        <div class="text-center">
+            <!-- Pager -->
+            <@pager request.requestURI!"", results, 5/>
+        </div>
     </div>
     <div class="col-xs-12 col-md-3 side-right">
         <#include "/simple/inc/right.ftl"/>
     </div>
 </div>
-<!-- latest contents/end -->
 
 </@layout>

@@ -1033,9 +1033,7 @@ abbr[data-original-title], abbr[title] {
 .account-tab>li>a {border-radius: 2px; padding: 6px 10px;}
 
 /*
-
  * Chat
-
  */
 .chats { background: #fff; }
 .chats h4 { display: block; height: 40px; line-height: 40px; font-weight: 500; text-indent: 10px; font-size: 14px; }

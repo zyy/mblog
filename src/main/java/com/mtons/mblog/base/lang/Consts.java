@@ -65,8 +65,6 @@ public interface Consts {
 	int VERIFY_STATUS_INIT = 0;      // 验证码-初始
 	int VERIFY_STATUS_CERTIFIED = 1; // 验证码-已使用
 
-	int FEEDS_TYPE_POST = 1; // 动态类型 - 发布文章
-
 	int FEATURED_DEFAULT = 0; // 推荐状态-默认
 	int FEATURED_ACTIVE = 1;  // 推荐状态-推荐
 
@@ -80,13 +78,11 @@ public interface Consts {
 	 */
 	int READED = 1;
 
-	int NOTIFY_EVENT_FAVOR_POST = 1; // 有人喜欢了你的文章
+	int MESSAGE_EVENT_FAVOR_POST = 1; // 有人喜欢了你的文章
 
-	int NOTIFY_EVENT_FOLLOW = 2; // 有人关注了你
+	int MESSAGE_EVENT_COMMENT = 3; // 有人评论了你
 
-	int NOTIFY_EVENT_COMMENT = 3; // 有人评论了你
-
-	int NOTIFY_EVENT_COMMENT_REPLY = 4; // 有人回复了你
+	int MESSAGE_EVENT_COMMENT_REPLY = 4; // 有人回复了你
 
 	String EMAIL_TEMPLATE_CODE = "email_code.ftl";
 }

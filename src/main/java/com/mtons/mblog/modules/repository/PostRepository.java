@@ -24,43 +24,43 @@ import java.util.List;
 
 /**
  * @author langhsu
- *
  */
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
-	/**
-	 * 查询指定用户
-	 * @param pageable
-	 * @param authorId
-	 * @return
-	 */
-	Page<Post> findAllByAuthorIdOrderByCreatedDesc(Pageable pageable, long authorId);
+    /**
+     * 查询指定用户
+     *
+     * @param pageable
+     * @param authorId
+     * @return
+     */
+    Page<Post> findAllByAuthorIdOrderByCreatedDesc(Pageable pageable, long authorId);
 
-	// findLatests
-	List<Post> findTop10ByOrderByCreatedDesc();
+    // findLatests
+    List<Post> findTop10ByOrderByCreatedDesc();
 
-	// findHots
-	List<Post> findTop10ByOrderByViewsDesc();
+    // findHots
+    List<Post> findTop10ByOrderByViewsDesc();
 
-	List<Post> findAllByIdIn(Collection<Long> id);
+    List<Post> findAllByIdIn(Collection<Long> id);
 
-	List<Post> findTop5ByFeaturedGreaterThanOrderByCreatedDesc(int featured);
+    List<Post> findTop5ByFeaturedGreaterThanOrderByCreatedDesc(int featured);
 
-	@Query("select coalesce(max(weight), 0) from Post")
-	int maxWeight();
+    @Query("select coalesce(max(weight), 0) from Post")
+    int maxWeight();
 
-	@Modifying
-	@Transactional
-	@Query("update Post set views = views + :increment where id = :id")
-	void updateViews(@Param("id") long id, @Param("increment") int increment);
+    @Modifying
+    @Transactional
+    @Query("update Post set views = views + :increment where id = :id")
+    void updateViews(@Param("id") long id, @Param("increment") int increment);
 
-	@Modifying
-	@Transactional
-	@Query("update Post set favors = favors + :increment where id = :id")
-	void updateFavors(@Param("id") long id, @Param("increment") int increment);
+    @Modifying
+    @Transactional
+    @Query("update Post set favors = favors + :increment where id = :id")
+    void updateFavors(@Param("id") long id, @Param("increment") int increment);
 
-	@Modifying
-	@Transactional
-	@Query("update Post set comments = comments + :increment where id = :id")
-	void updateComments(@Param("id") long id, @Param("increment") int increment);
-	
+    @Modifying
+    @Transactional
+    @Query("update Post set comments = comments + :increment where id = :id")
+    void updateComments(@Param("id") long id, @Param("increment") int increment);
+
 }

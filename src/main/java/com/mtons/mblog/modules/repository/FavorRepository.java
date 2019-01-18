@@ -12,11 +12,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface FavorRepository extends JpaRepository<Favor, Long>, JpaSpecificationExecutor<Favor> {
     /**
      * 指定查询
+     *
      * @param ownId
      * @param postId
      * @return
      */
     Favor findByOwnIdAndPostId(long ownId, long postId);
-
     Page<Favor> findAllByOwnIdOrderByCreatedDesc(Pageable pageable, long ownId);
 }

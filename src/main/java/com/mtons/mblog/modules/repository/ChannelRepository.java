@@ -23,5 +23,4 @@ import java.util.List;
 public interface ChannelRepository extends JpaRepository<Channel, Integer>, JpaSpecificationExecutor<Channel> {
 	List<Channel> findAllByStatus(int status);
 	List<Channel> findAllByIdIn(Collection<Integer> id);
-	Channel findByKey(String key);
 }
