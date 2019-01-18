@@ -34,17 +34,23 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    @Bean
+    public AccountSubjectFactory accountSubjectFactory() {
+        return new AccountSubjectFactory();
+    }
+
     /**
      * 安全管理器
      */
     @Bean
-    public DefaultWebSecurityManager securityManager(CookieRememberMeManager rememberMeManager, CacheManager cacheShiroManager, SessionManager sessionManager) {
+    public DefaultWebSecurityManager securityManager(CookieRememberMeManager rememberMeManager, CacheManager cacheShiroManager, SessionManager sessionManager,
+                                                     AccountSubjectFactory accountSubjectFactory) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(this.shiroAccountRealm());
         securityManager.setCacheManager(cacheShiroManager);
         securityManager.setRememberMeManager(rememberMeManager);
         securityManager.setSessionManager(sessionManager);
-        securityManager.setSubjectFactory(new AccountSubjectFactory());
+        securityManager.setSubjectFactory(accountSubjectFactory);
         return securityManager;
     }
 

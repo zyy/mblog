@@ -94,7 +94,7 @@
                     </li>
                     <li class="dropdown">
                         <a href="#" class="user dropdown-toggle" data-toggle="dropdown">
-                            <img class="img-circle" src="${base}${profile.avatar}?t=${.now}">
+                            <img class="img-circle" src="${base}${profile.avatar}?t=${.now?time}">
                             <span>${profile.name}</span>
                         </a>
                         <ul class="dropdown-menu" role="menu">

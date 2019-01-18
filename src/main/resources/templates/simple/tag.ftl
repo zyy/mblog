@@ -4,61 +4,77 @@
 
 <div class="row streams">
     <div class="col-xs-12 col-md-9 side-left">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <ul class="list-inline topic-filter">
-                    <li class="popover-with-html">
-                        标签: ${kw} 共 ${page.totalElements} 个结果.
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-
-            <div class="panel-body remove-padding-horizontal">
-
-                <ul class="list-group row topic-list">
-					<#list page.content as row>
-                        <li class="list-group-item ">
-                            <a class="reply_count_area hidden-xs pull-right" href="#">
-                                <div class="count_set">
-                                    <span class="count_of_votes" title="阅读数">${row.views}</span>
-                                    <span class="count_seperator">/</span>
-                                    <span class="count_of_replies" title="回复数">${row.comments}</span>
-                                    <span class="count_seperator">/</span>
-                                    <span class="count_of_visits" title="点赞数">${row.favors}</span>
-                                    <span class="count_seperator">|</span>
-                                    <abbr class="timeago">${timeAgo(row.created)}</abbr>
-                                </div>
-                            </a>
-                            <div class="avatar pull-left">
-                                <a href="${base}/users/${row.author.id}">
-                                    <img class="media-object img-thumbnail avatar avatar-middle"
-                                         src="${base + row.author.avatar}">
+        <div class="posts ">
+            <ul class="ajax-load-box posts-con">
+                <li class="ajax-load-con content">
+                    <div class="content-box posts-aside">
+                        <div class="posts-default-content">标签: ${kw} 共 ${page.totalElements} 个结果.</div>
+                    </div>
+                </li>
+                <#list page.content as row>
+                    <li class="ajax-load-con content">
+                    <#if row.thumbnail?? && row.thumbnail?length gt 0>
+                        <div class="content-box posts-gallery-box">
+                            <div class="posts-gallery-img">
+                                <a href="${base}/view/${row.id}" title="">
+                                    <img class="lazy thumbnail" src="${base + row.thumbnail}" style="display: inline-block;">
                                 </a>
                             </div>
-                            <div class="infos">
-                                <div class="media-heading">
-								<#--<span class="hidden-xs label label-warning">${row.channel.name}</span>-->
-                                    <a href="${base}/view/${row.id}">${row.title}</a>
+                            <div class="posts-gallery-content">
+                                <h2><a href="${base}/view/${row.id}" title="">${row.title?html}</a></h2>
+                                <div class="posts-gallery-text">${row.summary}</div>
+                                <div class="posts-default-info">
+                                    <ul>
+                                        <li class="post-author">
+                                            <div class="avatar">
+                                                <img src="${base + row.author.avatar}?t=${.now?time}" class="lazy avatar avatar-50 photo" height="50" width="50">
+                                            </div>
+                                            <a href="${base}/users/${row.author.id}" target="_blank">${row.author.name}</a>
+                                        </li>
+                                        <li class="ico-cat"><i class="icon-list-1"></i><@classify row/></li>
+                                        <li class="ico-time"><i class="icon-clock"></i>${timeAgo(row.created)}</li>
+                                        <li class="ico-eye"><i class="icon-speech"></i> ${row.views}</li>
+                                        <li class="ico-like"><i class="icon-bubbles"></i> ${row.comments}</li>
+                                    </ul>
                                 </div>
                             </div>
-                        </li>
-					</#list>
-
-					<#if page.content?size == 0>
-                        <li class="list-group-item ">
-                            <div class="infos">
-                                <div class="media-heading">该目录下还没有内容!</div>
+                        </div>
+                    <#else>
+                        <div class="content-box posts-aside">
+                            <div class="posts-default-content">
+                                <div class="posts-default-title">
+                                    <h2><a href="${base}/view/${row.id}" title="">${row.title?html}</a></h2>
+                                </div>
+                                <div class="posts-text">${row.summary}</div>
+                                <div class="posts-default-info">
+                                    <ul>
+                                        <li class="post-author">
+                                            <div class="avatar">
+                                                <img src="${base + row.author.avatar}?t=${.now?time}" class="lazy avatar avatar-50 photo" height="50" width="50">
+                                            </div>
+                                            <a href="${base}/users/${row.author.id}" target="_blank">${row.author.name}</a>
+                                        </li>
+                                        <li class="ico-cat"><i class="icon-list-1"></i><@classify row/></li>
+                                        <li class="ico-time"><i class="icon-clock"></i>${timeAgo(row.created)}</li>
+                                        <li class="ico-eye"><i class="icon-speech"></i> ${row.views}</li>
+                                        <li class="ico-like"><i class="icon-bubbles"></i> ${row.comments}</li>
+                                    </ul>
+                                </div>
                             </div>
-                        </li>
-					</#if>
-                </ul>
-            </div>
-
-            <div class="panel-footer text-right remove-padding-horizontal pager-footer">
-				<@pager request.requestURI, page, 5/>
-            </div>
+                        </div>
+                    </#if>
+                    </li>
+                </#list>
+                <#if !page?? || page.content?size == 0>
+                    <li class="ajax-load-con content">
+                        <div class="content-box posts-aside">
+                            <div class="posts-default-content">该目录下还没有内容!</div>
+                        </div>
+                    </li>
+                </#if>
+            </ul>
         </div>
+        <@pager request.requestURI, page, 5/>
     </div>
     <div class="col-xs-12 col-md-3 side-right">
 		<#include "/default/inc/right.ftl" />

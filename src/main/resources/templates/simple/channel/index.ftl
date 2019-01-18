@@ -21,7 +21,7 @@
                                             <ul>
                                                 <li class="post-author">
                                                     <div class="avatar">
-                                                        <img src="${base + row.author.avatar}" class="lazy avatar avatar-50 photo" height="50" width="50">
+                                                        <img src="${base + row.author.avatar}?t=${.now?time}" class="lazy avatar avatar-50 photo" height="50" width="50">
                                                     </div>
                                                     <a href="${base}/users/${row.author.id}" target="_blank">${row.author.name}</a>
                                                 </li>
@@ -44,7 +44,7 @@
                                             <ul>
                                                 <li class="post-author">
                                                     <div class="avatar">
-                                                        <img src="${base + row.author.avatar}" class="lazy avatar avatar-50 photo" height="50" width="50">
+                                                        <img src="${base + row.author.avatar}?t=${.now?time}" class="lazy avatar avatar-50 photo" height="50" width="50">
                                                     </div>
                                                     <a href="${base}/users/${row.author.id}" target="_blank">${row.author.name}</a>
                                                 </li>
