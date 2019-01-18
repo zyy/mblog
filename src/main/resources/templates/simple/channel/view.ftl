@@ -10,18 +10,13 @@
         <!-- view show -->
         <div class="topic panel panel-default">
             <div class="infos panel-heading">
-
                 <h1 class="panel-title topic-title">${view.title}</h1>
-
                 <div class="meta inline-block">
-
                     <a class="author" href="${base}/users/${view.author.id}">
                     ${view.author.name}
                     </a>
                     <abbr class="timeago">${timeAgo(view.created)}</abbr>
-                    ⋅
-                ${view.views} 阅读
-
+                    <abbr>⋅ ${view.views} 阅读</abbr>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -44,12 +39,17 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
+            <div class="more-box">
+                <a class="btn btn-fulltext" data-toggle="fulltext">
+                    <i class="icon icon-arrow-down" aria-hidden="true"></i> 阅读全部
+                </a>
+            </div>
         </div>
 
         <!-- Comments -->
         <div id="chat" class="chats shadow-box">
             <div class="chat_other">
-                <h4>全部评论: <i id="chat_count">0</i> 条</h4>
+                <h4>全部评论: <span id="chat_count">0</span> 条</h4>
             </div>
             <ul id="chat_container" class="its"></ul>
             <div id="pager" class="text-center"></div>

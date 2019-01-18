@@ -992,6 +992,10 @@ abbr[data-original-title], abbr[title] {
     border: 1px solid #03a9f4;
 }
 
+.topic .more-box .icon {
+    vertical-align: middle;
+}
+
 .topic .more-box .btn-fulltext:hover {
     color: #fff;
     background-color: #17b2f9;
@@ -1008,13 +1012,20 @@ abbr[data-original-title], abbr[title] {
     display: none;
 }
 
+.copyright {
+    color: #888;
+    padding: 10px 15px;
+    background-color: #f4f5f3;
+    border-radius: 2px;
+}
+
 .topic .panel-body {
     border-bottom: none;
 }
 
 .topic .panel-footer {
     background-color: #fff;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     border-top: none;
 }
 
@@ -1471,11 +1482,10 @@ abbr[data-original-title], abbr[title] {
 
 .chats h4 {
     display: block;
-    height: 40px;
-    line-height: 40px;
+    line-height: 1.5;
     font-weight: 500;
     text-indent: 10px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .chats .chat_other {
@@ -1483,11 +1493,8 @@ abbr[data-original-title], abbr[title] {
 }
 
 .chats .chat_other h4 {
-    margin: 5px;
-    display: block;
-    height: 40px;
-    line-height: 40px;
-    font-weight: 500;
+    margin: 0;
+    padding: 15px 10px;
 }
 
 .chats .its {
@@ -1514,7 +1521,7 @@ abbr[data-original-title], abbr[title] {
 
 .chats .chat_body {
     margin-left: 50px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 18px;
 }
 
@@ -1529,7 +1536,7 @@ abbr[data-original-title], abbr[title] {
 
 .chats .chat_body a {
     color: #1f8902;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .chats .chat_body span {
@@ -1567,7 +1574,7 @@ abbr[data-original-title], abbr[title] {
 }
 
 .cbox-wrap .cbox-post {
-    border: 1px solid #ccc;
+
 }
 
 .cbox-wrap .cbox-post a {
@@ -1575,10 +1582,13 @@ abbr[data-original-title], abbr[title] {
 }
 
 .cbox-wrap .cbox-input {
+    border: 1px solid #ccc;
+    border-radius: 2px;
 }
 
 .cbox-wrap .cbox-input textarea {
     border-style: none;
+    border-radius: 2px;
     display: block;
     width: 100%;
     padding: 6px;
@@ -1596,8 +1606,8 @@ abbr[data-original-title], abbr[title] {
 
 .cbox-wrap .cbox-ats {
     padding: 0;
+    margin-top: 15px;
     display: block;
-    border-top: 1px solid #ccc;
 }
 
 .cbox-wrap .ats-func {
@@ -1615,7 +1625,6 @@ abbr[data-original-title], abbr[title] {
     padding: 0;
     height: auto;
     border: none;
-    border-right: 1px solid #ccc;
 }
 
 .cbox-wrap .join {
@@ -1632,7 +1641,7 @@ abbr[data-original-title], abbr[title] {
 }
 
 .cbox-wrap .ats-issue .btn {
-    border-radius: 0 !important;
+    border-radius: 2px;
     padding: 5px 16px;
 }
 
