@@ -5,4 +5,3 @@ eternal：Element是否永久有效
 timeToIdleSeconds：设置Element在失效前的允许闲置时间 (单位：秒)
 timeToLiveSeconds：设置Element在失效前允许存活时间 (单位：秒)
 memoryStoreEvictionPolicy: 缓存满了之后的淘汰算法 LRU(最近最少使用)(default) FIFO(先进先出) LFU(较少使用)
- 

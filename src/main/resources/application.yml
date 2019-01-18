@@ -38,4 +38,7 @@ site:
     theme: simple
     store:
         root: d:/data/mblog/
+        maxWidth: 800
         size: 2
+system:
+    version: 2.8

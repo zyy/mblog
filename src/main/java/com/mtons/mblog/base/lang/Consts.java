@@ -9,8 +9,6 @@ package com.mtons.mblog.base.lang;
  *
  */
 public interface Consts {
-	String MTONS_CONFIG = "/mtons.properties";
-
 	/**
 	 * 默认头像
 	 */
